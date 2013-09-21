@@ -4,6 +4,7 @@ public class Carta{
 	private int numero;
 	private String palo;
 	private int valor;
+	private boolean habilitada = true;
 	
 	public Carta(int num, String pal){
 		setPalo(pal);
@@ -100,6 +101,14 @@ public class Carta{
 		}else{
 			return 0;
 		}
+	}
+
+	public boolean isHabilitada() {
+		return habilitada;
+	}
+
+	public void setHabilitada(boolean habilitada) {
+		this.habilitada = habilitada;
 	}
 	
 }

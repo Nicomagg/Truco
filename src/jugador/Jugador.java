@@ -1,5 +1,7 @@
 package jugador;
 
+import java.util.Arrays;
+
 import Elementos.Carta;
 
 public abstract class Jugador {
@@ -18,6 +20,10 @@ public abstract class Jugador {
 	public void setCartas(Carta[] car){
 		this.cartas = car;
 	}
+	
+	public void setCarta(Carta car, int posi){
+		this.cartas[posi] = car;
+	}
 
 	public String getNombre() {
 		return nombre;
@@ -35,6 +41,11 @@ public abstract class Jugador {
 		this.mano = mano;
 	}
 	
+	@Override
+	public String toString() {
+		return (Arrays.toString(cartas));
+	}
+
 	//Funcion que verifica si es la maquina o el jugador humano
 	public abstract boolean isHumano();
 	

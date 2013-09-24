@@ -24,6 +24,11 @@ public class Carta{
 		return palo;
 	}
 
+	@Override
+	public String toString() {
+		return  (numero + " " + palo);
+	}
+
 	public void setPalo(String palo) {
 		this.palo = palo;
 	}

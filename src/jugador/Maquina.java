@@ -79,7 +79,7 @@ public class Maquina extends Jugador{
 		}
 	}
 	
-	//FUncionpara obtener cartas
+	//FUncion para obtener cartas
 	public void obtenerCartas(Carta[] mezcla){
 		int j = 0;
 		Carta[] cartas = new Carta[3];
@@ -90,5 +90,21 @@ public class Maquina extends Jugador{
 			}
 		}
 		this.setCartas(cartas);
+		ordenarMenorMayor();
 	}
+	
+	//Funcion que ordena las cartas de menor a mayor segun su valor
+	private void ordenarMenorMayor(){
+		Carta aux;
+		for(int i = 0; i < 2; i++){
+			for(int j = i; j < 3; j++){
+				if((this.getCartas()[i].getValor())>(this.getCartas()[j].getValor())){
+					aux = this.getCartas()[j];
+					this.setCarta(this.getCartas()[0], j);
+					this.setCarta(aux, 0);
+				}
+			}
+		}
+	}
+	
 }

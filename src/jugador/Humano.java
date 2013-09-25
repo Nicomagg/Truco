@@ -1,8 +1,12 @@
 package jugador;
 
+import java.util.Scanner;
+
 import Elementos.Carta;
 
 public class Humano extends Jugador{
+
+	private Scanner sc;
 
 	public Humano(String nom) {
 		super(nom);
@@ -25,6 +29,13 @@ public class Humano extends Jugador{
 			}
 		}
 		this.setCartas(cartas);
+	}
+	
+	public int obtenerPutnos(){
+		sc = new Scanner(System.in);
+		System.out.println("Ingrese sus puntos: ");
+		int num = sc.nextInt();
+		return num;
 	}
 
 }

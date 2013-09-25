@@ -1,5 +1,7 @@
 package Elementos;
 
+import java.util.HashSet;
+
 public class Mazo {
 	Carta [] mazo = new Carta[40];
 	
@@ -52,10 +54,15 @@ public class Mazo {
 	public Carta[] mezclarMazo(){
 		Carta[] mezcla = new Carta[6];
 		int j;
-		for(int i = 0; i<6; i++){
+		HashSet<Carta> carta = new HashSet<Carta>();
+		
+		//Bucle para ver si no se reparten cartas iguales;
+		while((carta.size())<6){
 			j = (int)((Math.random()) * 39);
-			mezcla[i]=mazo[j];
+			carta.add(mazo[j]);
 		}
+
+		carta.toArray(mezcla);
 		
 		return mezcla;
 	}

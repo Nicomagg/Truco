@@ -49,4 +49,7 @@ public abstract class Jugador {
 	//Funcion que verifica si es la maquina o el jugador humano
 	public abstract boolean isHumano();
 	
+	//funcion para realizar la jugada de una jugado
+	public abstract boolean jugarCarta(int posicion);
+	
 }

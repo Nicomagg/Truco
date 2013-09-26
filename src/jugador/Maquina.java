@@ -106,5 +106,22 @@ public class Maquina extends Jugador{
 			}
 		}
 	}
+
+	@Override
+	public boolean jugarCarta(int posicion) {
+		if(this.getCartas()[posicion].isHabilitada()){
+			System.out.println("\nCarta máquina: "+this.getCartas()[posicion].getNumero()+"-"+this.getCartas()[posicion].getPalo());
+			this.getCartas()[posicion].setHabilitada(false);
+			return true;
+		}else{
+			System.out.println("La carta ya ha sido jugada");
+			return false;
+		}
+	}
+	
+	//funcion para saber que hacer la maquina si le cantan truco
+	public void cantanTruco(int carta, Jugador jug){
+		
+	}
 	
 }

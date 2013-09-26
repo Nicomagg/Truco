@@ -80,8 +80,10 @@ public class Principal {
 				if(primera == 4){
 					
 				}
-				
+			
+			//fin si el jugador humano es mano	
 			}
+			
 		}//fin while principal
 	}//fin main
 	
@@ -350,7 +352,7 @@ public class Principal {
 					}
 				}
 			}
-		}else{
+		}else if( respuesta == 2){
 			if(jug.isHumano()){
 				if(envido){
 					contador.sumarPuntos(jugadorH, 3);
@@ -370,5 +372,140 @@ public class Principal {
 			}
 		}
 	}//fin real envido
+	
+	//Funcion para realizar el envido
+	public void envido(boolean envido, Jugador jug){
+		System.out.println("\nEnvido");
+		int respuesta = 0;
+		boolean error = true;
+		
+		if(envido){
+			if(jug.isHumano()){
+				if(mentir){
+					this.faltaEnvido(false, true, false, jugadorM);
+				}else{
+					if((jugadorM.puntosMano()>27)&&(jugadorM.puntosMano()<30)){
+						respuesta = 1;
+					}else if(jugadorM.puntosMano()>=30){
+						this.faltaEnvido(false, true, false, jugadorM);
+					}else{
+						respuesta = 2;
+					}
+				}
+			//fin si es humano	
+			}else{
+				
+				while(error){
+					try{
+						System.out.println("1-Quiero  --  2-No Quiero  --  3-Real Envido  --  4-Falta Envido");
+						respuesta = sc.nextInt();
+						if((respuesta<1)&&(respuesta>4)){
+							System.out.println("\nError, el valor ingresado no corresponde a una de la opciones");
+						}else{
+							error = false;
+						}
+					}catch(Exception e){
+						System.out.println("\nError. El valor ingresado no es un número");
+					}
+				}
+				
+				if(respuesta == 3){
+					this.realEnvido(false, true, jugadorH);
+				}else if(respuesta == 4){
+					this.faltaEnvido(false, true, false, jugadorH);
+				}
+			//fin si es maquina el que canto	
+			}
+		//Fin Si se canto envido	
+		}else{
+			if(jug.isHumano()){
+				if(mentir){
+					this.envido(true, jugadorM);
+				}else{
+					if((jugadorM.puntosMano()>24)&&(jugadorM.puntosMano()<29)){
+						respuesta = 1;
+					}else if(jugadorM.puntosMano()>=29){
+						this.envido(true, jugadorM);
+					}else{
+						respuesta = 2;
+					}
+				}
+			//fin si es humano	
+			}else{
+				
+				while(error){
+					try{
+						System.out.println("1-Quiero  --  2-No Quiero  --  3-Envido  --  4-Real Envido  --  5-Falta Envido");
+						respuesta = sc.nextInt();
+						if((respuesta<1)&&(respuesta>5)){
+							System.out.println("\nError, el valor ingresado no corresponde a una de la opciones");
+						}else{
+							error = false;
+						}
+					}catch(Exception e){
+						System.out.println("\nError. El valor ingresado no es un número");
+					}
+				}
+				
+				if(respuesta == 3){
+					this.envido(true, jugadorH);
+				}else if(respuesta == 4){
+					this.realEnvido(true, false, jugadorH);
+				}else if(respuesta == 5){
+					this.faltaEnvido(true, false, false, jugadorH);
+				}
+			//fin si es maquina el que canto	
+			}
+		//Fin si no se canto envido envido	
+		}
+		
+		if(respuesta == 1){
+			int puntos = jugadorH.obtenerPutnos();
+			System.out.println("\nLos puntos de la maquina es: "+jugadorM.puntosMano());
+			
+			if(puntos < jugadorM.puntosMano()){
+				if(envido){
+					contador.sumarPuntos(jugadorM, 4);
+				}else{
+					contador.sumarPuntos(jugadorM, 2);
+				}
+			}else if(puntos > jugadorM.puntosMano()){
+				if(envido){
+					contador.sumarPuntos(jugadorH, 4);
+				}else{
+					contador.sumarPuntos(jugadorH, 2);
+				}
+			}else{
+				if(jugadorH.isMano()){
+					if(envido){
+						contador.sumarPuntos(jugadorH, 4);
+					}else{
+						contador.sumarPuntos(jugadorH, 2);
+					}
+				}else{
+					if(envido){
+						contador.sumarPuntos(jugadorM, 4);
+					}else{
+						contador.sumarPuntos(jugadorM, 2);
+					}
+				}
+			}
+				
+		}else if(respuesta == 2){
+			if(jug.isHumano()){
+				if(envido){
+					contador.sumarPuntos(jugadorH, 2);
+				}else{
+					contador.sumarPuntos(jugadorH, 1);
+				}
+			}else{
+				if(envido){
+					contador.sumarPuntos(jugadorM, 2);
+				}else{
+					contador.sumarPuntos(jugadorM, 1);
+				}
+			}
+		}//fin si quiere o no
+	}//fin envido
 
 }//fin class

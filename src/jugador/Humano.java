@@ -38,4 +38,16 @@ public class Humano extends Jugador{
 		return num;
 	}
 
+	@Override
+	public boolean jugarCarta(int posicion) {
+		if(this.getCartas()[posicion].isHabilitada()){
+			System.out.println("\nCarta de usted: "+this.getCartas()[posicion].getNumero()+"-"+this.getCartas()[posicion].getPalo());
+			this.getCartas()[posicion].setHabilitada(false);
+			return true;
+		}else{
+			System.out.println("La carta ya ha sido jugada");
+			return false;
+		}
+	}
+
 }

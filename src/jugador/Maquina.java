@@ -106,22 +106,56 @@ public class Maquina extends Jugador{
 			}
 		}
 	}
-
-	@Override
-	public boolean jugarCarta(int posicion) {
-		if(this.getCartas()[posicion].isHabilitada()){
-			System.out.println("\nCarta máquina: "+this.getCartas()[posicion].getNumero()+"-"+this.getCartas()[posicion].getPalo());
-			this.getCartas()[posicion].setHabilitada(false);
+	
+	//Funcion para ver si tengo cartas para el truco
+	public boolean cartaTruco(){
+		if((this.getCartas()[0].getValor() > 7)&&(this.getCartas()[1].getValor() > 7)){
 			return true;
-		}else{
-			System.out.println("La carta ya ha sido jugada");
-			return false;
+		}else if((this.getCartas()[1].getValor() > 7)&&(this.getCartas()[2].getValor() > 7)){
+			return true;
+		}else if((this.getCartas()[0].getValor() > 7)&&(this.getCartas()[2].getValor() > 7)){
+			return true;
 		}
+		return false;
 	}
 	
-	//funcion para saber que hacer la maquina si le cantan truco
-	public void cantanTruco(int carta, Jugador jug){
-		
+	//Funcion para ver si tengo cartas para el reTruco
+	public boolean cartaReTruco(){
+		if((this.getCartas()[0].getValor() > 9)&&(this.getCartas()[1].getValor() > 9)){
+			return true;
+		}else if((this.getCartas()[1].getValor() > 9)&&(this.getCartas()[2].getValor() > 9)){
+			return true;
+		}else if((this.getCartas()[0].getValor() > 9)&&(this.getCartas()[2].getValor() > 9)){
+			return true;
+		}else if(this.getCartas()[1].getValor() > 10){
+			return true;
+		}else if(this.getCartas()[0].getValor() > 10){
+			return true;
+		}else if(this.getCartas()[2].getValor() > 10){
+			return true;
+		}
+		return false;
 	}
+	
+	//Funcion para ver si tengo cartas para el vale 4
+	public boolean cartaVale4(){
+		if((this.getCartas()[0].getValor() > 10)&&(this.getCartas()[1].getValor() > 10)){
+			return true;
+		}else if((this.getCartas()[1].getValor() > 10)&&(this.getCartas()[2].getValor() > 10)){
+			return true;
+		}else if((this.getCartas()[0].getValor() > 10)&&(this.getCartas()[2].getValor() > 10)){
+			return true;
+		}else if(this.getCartas()[1].getValor() > 10){
+			return true;
+		}else if(this.getCartas()[0].getValor() > 10){
+			return true;
+		}else if(this.getCartas()[2].getValor() > 10){
+			return true;
+		}
+		return false;
+	}
+	
+	//funcion para el truco
+	public 
 	
 }

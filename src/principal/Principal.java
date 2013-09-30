@@ -17,6 +17,10 @@ public class Principal {
 	private static Contador contador = new Contador();//Instancio un nuevo contador del partido
 	private static Maquina jugadorM = new Maquina("Maquina");//Instancio un nuevo jugador maquina
 	private static Humano jugadorH;
+	private static boolean cantoEnvido = false;
+	private static boolean truco = false;
+	private static boolean reTruco = false;
+	private static boolean vale4 = false;
 	
 	public static void main(String[] args) {
 		System.out.println("TRUCO - by Nicolas Maggione \n");
@@ -28,9 +32,6 @@ public class Principal {
 		int primera = 0;//Variables para la primera vuelta de una mano
 		int segunda = 0;//Variables para la segunda vuelta de una mano
 		int tercera = 0;//Variables para la tercera vuelta de una mano		
-		boolean truco = false;
-		boolean reTruco = false;
-		boolean vale4 = false;
 		
 		System.out.print("Ingrese su nombre: ");
 		String nombre = sc.next();
@@ -38,7 +39,7 @@ public class Principal {
 		
 		//Bucle que se ejecutara mientras no gane nadie
 		while(!(contador.hayGanador())){
-			System.out.println("\nSus puntos: "+contador.getPuntosJug()+"\nPuntos maquina: "+ contador.getPuntosMaq());
+			System.out.println("\nSus puntos: "+contador.getPuntosJug()+"\nPuntos máquina: "+ contador.getPuntosMaq());
 			Carta[] mezcla = mazo.mezclarMazo();//Mezclo el mazo
 			jugadorH.obtenerCartas(mezcla);//Reparto al jugador
 			jugadorM.obtenerCartas(mezcla);//Reparto a la maquina
@@ -55,41 +56,53 @@ public class Principal {
 				mentir = jugadorM.mentir(20);
 			}
 			
-			//controlo quien es mano
-			if(jugadorH.isMano()){
-				System.out.println("\n"+jugadorH.getNombre()+" es mano.\nSus cartas son: " + jugadorH);
+			//while para ver si la mano no ha sido ganada ya
+			while((jugadorH.ganoMano())||(jugadorM.ganoMano())){
 				
-				//Bucle que se repetira siempre que el valor ingresado no sea correcto.
-				while(error){
-					System.out.println("\n-Ingrese 1 para jugar la primera carta; \n-Ingrese 2 para jugar la segunda carta; \n-Ingrese 3 para jugar la tercer carta; \n4-Envido   5-RealEnvido   6-FaltaEnvido   7-Truco");
-					//Try para verificar que lo que se ingresa sea un numero
-					try{
-						primera = sc.nextInt();
-						//Verifico que el numero ingresado sea correcto
-						if((primera < 1)&&(primera > 7)){
-							System.out.println("El valor ingresa no corresponde con un numero válido");
-						}else{
-							error = false;
-						}
-					}catch(Exception e){
-						System.out.println("El valor ingresado no es un número");
-					}//fin try
-				}//fin while
-				
-				//condicinal segun lo ingresado por el jugador
-				if(primera == 4){
+				//controlo quien es mano
+				if(jugadorH.isMano()){
+					System.out.println("\n"+jugadorH.getNombre()+" es mano.\nSus cartas son: " + jugadorH);
 					
+					//Bucle que se repetira siempre que el valor ingresado no sea correcto.
+					while(error){
+						System.out.println("\n-Ingrese 1 para jugar la primera carta; \n-Ingrese 2 para jugar la segunda carta; \n-Ingrese 3 para jugar la tercer carta; \n4-Envido   5-RealEnvido   6-FaltaEnvido   7-Truco");
+						//Try para verificar que lo que se ingresa sea un numero
+						try{
+							primera = sc.nextInt();
+							//Verifico que el numero ingresado sea correcto
+							if((primera < 1)&&(primera > 7)){
+								System.out.println("El valor ingresa no corresponde con un numero válido");
+							}else{
+								error = false;
+							}
+						}catch(Exception e){
+							System.out.println("El valor ingresado no es un número");
+						}//fin try
+					}//fin while
+					
+					//Si se canto algo antes de jugar alguna carta
+					if(primera == 4){
+						envido(false, jugadorH);
+					}else if(primera == 5){
+						realEnvido(false,false,jugadorH);
+					}else if(primera == 6){
+						faltaEnvido(false,false,false,jugadorH);
+					}else if(primera == 7){
+						
+					}
+				
+				//fin si el jugador humano es mano	
 				}
 			
-			//fin si el jugador humano es mano	
-			}
+			}//fin while que controla si la mano se ha ganado
 			
 		}//fin while principal
 	}//fin main
 	
 	//funcion para cantar la falta envido
-	public void faltaEnvido(boolean envido, boolean envidoEnvido, boolean realEnvido, Jugador jug){
+	public static void faltaEnvido(boolean envido, boolean envidoEnvido, boolean realEnvido, Jugador jug){
 		System.out.println("\nFalta Envido");
+		cantoEnvido = true;
 		int respuesta = 0;
 		boolean error = true;
 		
@@ -234,8 +247,9 @@ public class Principal {
 	}//fin falta envido
 	
 	//funcion para cantar el real envido
-	public void realEnvido(boolean envido, boolean envidoEnvido, Jugador jug){
+	public static void realEnvido(boolean envido, boolean envidoEnvido, Jugador jug){
 		System.out.println("\nReal Envido");
+		cantoEnvido = true;
 		int respuesta = 0;
 		boolean error = true;
 		
@@ -243,19 +257,19 @@ public class Principal {
 			int puntosGanarMaq = 30 - contador.getPuntosMaq();
 			int puntosGanarHum = 30 - contador.getPuntosJug();
 			if(mentir){
-				this.faltaEnvido(envido, envidoEnvido, true, jugadorM);
+				faltaEnvido(envido, envidoEnvido, true, jugadorM);
 			}else{
 				if(envido){
 					if(puntosGanarHum<=2){
 						respuesta = 1;
 					}else{
 						if(puntosGanarMaq<=2){
-							this.faltaEnvido(envido, envidoEnvido, true, jugadorM);
+							faltaEnvido(envido, envidoEnvido, true, jugadorM);
 						}else{
 							if((jugadorM.puntosMano()>27)&&(jugadorM.puntosMano()<31)){
 								respuesta = 1;
 							}else if(jugadorM.puntosMano()>=31){
-								this.faltaEnvido(envido, envidoEnvido, true, jugadorM);
+								faltaEnvido(envido, envidoEnvido, true, jugadorM);
 							}else{
 								respuesta = 0;
 							}
@@ -266,12 +280,12 @@ public class Principal {
 						respuesta = 1;
 					}else{
 						if(puntosGanarMaq<=4){
-							this.faltaEnvido(envido, envidoEnvido, true, jugadorM);
+							faltaEnvido(envido, envidoEnvido, true, jugadorM);
 						}else{
 							if((jugadorM.puntosMano()>27)&&(jugadorM.puntosMano()<31)){
 								respuesta = 1;
 							}else if(jugadorM.puntosMano()>=31){
-								this.faltaEnvido(envido, envidoEnvido, true, jugadorM);
+								faltaEnvido(envido, envidoEnvido, true, jugadorM);
 							}else{
 								respuesta = 0;
 							}
@@ -279,12 +293,12 @@ public class Principal {
 					}
 				}else{
 					if(puntosGanarMaq==1){
-						this.faltaEnvido(envido, envidoEnvido, true, jugadorM);
+						faltaEnvido(envido, envidoEnvido, true, jugadorM);
 					}else{
 						if((jugadorM.puntosMano()>27)&&(jugadorM.puntosMano()<31)){
 							respuesta = 1;
 						}else if(jugadorM.puntosMano()>=31){
-							this.faltaEnvido(envido, envidoEnvido, true, jugadorM);
+							faltaEnvido(envido, envidoEnvido, true, jugadorM);
 						}else{
 							respuesta = 0;
 						}
@@ -310,7 +324,7 @@ public class Principal {
 			}
 			
 			if(respuesta == 3){
-				this.faltaEnvido(envido, envidoEnvido, true, jugadorH);
+				faltaEnvido(envido, envidoEnvido, true, jugadorH);
 			}
 		}
 		
@@ -374,20 +388,21 @@ public class Principal {
 	}//fin real envido
 	
 	//Funcion para realizar el envido
-	public void envido(boolean envido, Jugador jug){
+	public static void envido(boolean envido, Jugador jug){
 		System.out.println("\nEnvido");
+		cantoEnvido = true;
 		int respuesta = 0;
 		boolean error = true;
 		
 		if(envido){
 			if(jug.isHumano()){
 				if(mentir){
-					this.faltaEnvido(false, true, false, jugadorM);
+					faltaEnvido(false, true, false, jugadorM);
 				}else{
 					if((jugadorM.puntosMano()>27)&&(jugadorM.puntosMano()<30)){
 						respuesta = 1;
 					}else if(jugadorM.puntosMano()>=30){
-						this.faltaEnvido(false, true, false, jugadorM);
+						faltaEnvido(false, true, false, jugadorM);
 					}else{
 						respuesta = 2;
 					}
@@ -410,9 +425,9 @@ public class Principal {
 				}
 				
 				if(respuesta == 3){
-					this.realEnvido(false, true, jugadorH);
+					realEnvido(false, true, jugadorH);
 				}else if(respuesta == 4){
-					this.faltaEnvido(false, true, false, jugadorH);
+					faltaEnvido(false, true, false, jugadorH);
 				}
 			//fin si es maquina el que canto	
 			}
@@ -420,12 +435,12 @@ public class Principal {
 		}else{
 			if(jug.isHumano()){
 				if(mentir){
-					this.envido(true, jugadorM);
+					envido(true, jugadorM);
 				}else{
 					if((jugadorM.puntosMano()>24)&&(jugadorM.puntosMano()<29)){
 						respuesta = 1;
 					}else if(jugadorM.puntosMano()>=29){
-						this.envido(true, jugadorM);
+						envido(true, jugadorM);
 					}else{
 						respuesta = 2;
 					}
@@ -448,11 +463,11 @@ public class Principal {
 				}
 				
 				if(respuesta == 3){
-					this.envido(true, jugadorH);
+					envido(true, jugadorH);
 				}else if(respuesta == 4){
-					this.realEnvido(true, false, jugadorH);
+					realEnvido(true, false, jugadorH);
 				}else if(respuesta == 5){
-					this.faltaEnvido(true, false, false, jugadorH);
+					faltaEnvido(true, false, false, jugadorH);
 				}
 			//fin si es maquina el que canto	
 			}

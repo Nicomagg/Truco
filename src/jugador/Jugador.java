@@ -8,9 +8,11 @@ public abstract class Jugador {
 	private String nombre;
 	private Carta[] cartas;
 	private boolean mano = false;
+	private int manoGanada = 0;
 	
 	public Jugador(String nom){
 		this.setNombre(nom);
+		this.setManoGanada(0);
 	}
 	
 	public Carta[] getCartas(){
@@ -48,8 +50,22 @@ public abstract class Jugador {
 
 	//Funcion que verifica si es la maquina o el jugador humano
 	public abstract boolean isHumano();
+
+	public int getManoGanada() {
+		return manoGanada;
+	}
+
+	public void setManoGanada(int manoGanada) {
+		this.manoGanada = this.getManoGanada() + manoGanada;
+	}
 	
-	//funcion para realizar la jugada de una jugado
-	public abstract boolean jugarCarta(int posicion);
+	//funcion para ver si gano la mano
+	public boolean ganoMano(){
+		if(this.getManoGanada()==2){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 }

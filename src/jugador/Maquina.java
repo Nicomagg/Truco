@@ -1,5 +1,7 @@
 package jugador;
 
+import java.util.ArrayList;
+
 import Elementos.Carta;
 import Elementos.Contador;
 
@@ -161,24 +163,7 @@ public class Maquina extends Jugador{
 		if(this.puntosMano()>29){
 			return true;
 		}else{
-			int puntosEnJuegos;
-			if(envido){
-				if(realEnvido){
-					puntosEnJuegos = 5;
-				}else{
-					puntosEnJuegos = 2;
-				}
-			}else if(envidoEnvido){
-				if(realEnvido){
-					puntosEnJuegos = 7;
-				}else{
-					puntosEnJuegos = 4;
-				}
-			}else if(realEnvido){
-				puntosEnJuegos = 3;
-			}else{
-				puntosEnJuegos = 1;
-			}
+			int puntosEnJuegos = contador.faltaEnvidoNoQuerida(envido, envidoEnvido, realEnvido);
 			int puntosGanarHumano = 30 - contador.getPuntosJug();
 			int puntosGanarMaquina = 30 - contador.getPuntosMaq();
 			if(puntosGanarHumano <= puntosEnJuegos){
@@ -190,11 +175,59 @@ public class Maquina extends Jugador{
 		return false;
 	}
 	
-	//funcion para ver que hace la maquina cuando le cantan falta envido
-	public boolean cantoRealEnvido(boolean envido, boolean envidoEnvido, Contador contador, boolean mentir, Humano jugadorH){
-		if(mentir){
-			//Seguir aca mañana. Falta hacer el etodo para que la maquina cante falta envido,
+	//funcion para que el maquina cante falta envido
+	public void faltaEnvido(boolean envido, boolean envidoEnvido, boolean realEnvido, Humano jugadorH, Contador contador, boolean mentir){
+		System.out.println("\n"+this.getNombre()+": Falta Envido");
+		//condicional para ver si el humano quiere
+		if(jugadorH.cantoFaltaEnvido()){
+			System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+			int puntosMaquina = this.puntosMano();
+			int puntosHumano = jugadorH.obtenerPutnos();
+			System.out.println("\n"+this.getNombre()+": "+puntosMaquina+" puntos.");
+			System.out.println("\n"+jugadorH.getNombre()+": "+puntosHumano+" puntos.");
+			if(puntosMaquina<puntosHumano){
+				contador.sumarFaltaEnvido(jugadorH);
+			}else if(puntosMaquina>puntosHumano){
+				contador.sumarFaltaEnvido(this);
+			}else{
+				if(this.isMano()){
+					contador.sumarFaltaEnvido(this);
+				}else{
+					contador.sumarFaltaEnvido(jugadorH);
+				}
+			}
+		}else{
+			contador.sumarPuntos(this, contador.faltaEnvidoNoQuerida(envido, envidoEnvido, realEnvido));
 		}
+	}
+	
+	//funcion para ver que hace la maquina cuando le cantan falta envido
+	public ArrayList<Boolean> cantoRealEnvido(boolean envido, boolean envidoEnvido, Contador contador, boolean mentir, Humano jugadorH){
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		boolean realEnvido = false;
+		boolean faltaEnvido = false;
+		if(mentir){
+			this.faltaEnvido(envido, envidoEnvido, true, jugadorH, contador, mentir);
+			faltaEnvido = true;
+		}else{
+			int puntosEnJuegos = contador.realEnvidoNoQuerido(envido, envidoEnvido);
+			int puntosGanarHumano = 30 - contador.getPuntosJug();
+			int puntosGanarMaquina = 30 - contador.getPuntosMaq();
+			if(puntosGanarHumano <= puntosEnJuegos){
+				realEnvido = true;
+			}else if(puntosGanarMaquina <= puntosEnJuegos){
+				this.faltaEnvido(envido, envidoEnvido, true, jugadorH, contador, mentir);
+				faltaEnvido = true;
+			}else if(this.puntosMano()>31){
+				this.faltaEnvido(faltaEnvido, envidoEnvido, true, jugadorH, contador, mentir);
+				faltaEnvido = true;
+			}else if(this.puntosMano()>29){
+				realEnvido = true;
+			}
+		}
+		respuesta.add(realEnvido);
+		respuesta.add(faltaEnvido);
+		return respuesta;
 	}
 	
 }

@@ -70,4 +70,53 @@ public class Contador {
 			return false;
 		}
 	}
+	
+	//funcion que suma puntos si no se quiere la falta envido
+	public int faltaEnvidoNoQuerida(boolean envido, boolean envidoEnvido, boolean realEnvido){
+		int puntosGanados;
+		if(envido){
+			if(realEnvido){
+				puntosGanados = 5;
+			}else{
+				puntosGanados = 2;
+			}
+		}else if(envidoEnvido){
+			if(realEnvido){
+				puntosGanados = 7;
+			}else{
+				puntosGanados = 4;
+			}
+		}else if(realEnvido){
+			puntosGanados = 3;
+		}else{
+			puntosGanados = 1;
+		}
+		return puntosGanados;
+	}
+	
+	//funcion que suma puntos si no se quiere el real envido
+	public int realEnvidoNoQuerido(boolean envido, boolean envidoEnvido){
+		int puntosGanados;
+		if(envido){
+			puntosGanados = 2;
+		}else if(envidoEnvido){
+			puntosGanados = 4;
+		}else{
+			puntosGanados = 1;
+		}
+		return puntosGanados;
+	}
+	
+	//Funcion que retorna os puntos a sumar para el que gana el real envido
+	public int realEnvioQuerido(boolean envido, boolean envidoEnvido){
+		int puntosGanados;
+		if(envido){
+			puntosGanados = 5;
+		}else if(envidoEnvido){
+			puntosGanados = 7;
+		}else{
+			puntosGanados = 3;
+		}
+		return puntosGanados;
+	}
 }

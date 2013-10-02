@@ -1,5 +1,6 @@
 package jugador;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import Elementos.Carta;
@@ -47,6 +48,7 @@ public class Humano extends Jugador{
 			System.out.println("\n"+jugadorM.getNombre()+": Quiero");
 			int puntosHumano = this.obtenerPutnos();
 			int puntosMaquina = jugadorM.puntosMano();
+			System.out.println("\n"+this.getNombre()+": "+puntosHumano+" puntos");
 			System.out.println("\n"+jugadorM.getNombre()+": "+puntosMaquina+" puntos");
 			if(puntosHumano < puntosMaquina){
 				contador.sumarFaltaEnvido(jugadorM);
@@ -60,25 +62,7 @@ public class Humano extends Jugador{
 				}
 			}
 		}else{
-			int puntosGanados;
-			if(envido){
-				if(realEnvido){
-					puntosGanados = 5;
-				}else{
-					puntosGanados = 2;
-				}
-			}else if(envidoEnvido){
-				if(realEnvido){
-					puntosGanados = 7;
-				}else{
-					puntosGanados = 4;
-				}
-			}else if(realEnvido){
-				puntosGanados = 3;
-			}else{
-				puntosGanados = 1;
-			}
-			contador.sumarPuntos(this, puntosGanados);
+			contador.sumarPuntos(this, contador.faltaEnvidoNoQuerida(envido, envidoEnvido, realEnvido));
 		}
 	}
 	
@@ -98,8 +82,7 @@ public class Humano extends Jugador{
 			}catch(Exception e){
 				System.out.println("\nError, el valor ingresado no es número");
 			}
-		}
-		
+		}		
 		if(respuesta == 1){
 			return true;
 		}else{
@@ -110,7 +93,32 @@ public class Humano extends Jugador{
 	//funcion para que el humano cante real Envido
 	public void realEnvido(boolean envido, boolean envidoEnvido, Maquina jugadorM, boolean mentira, Contador contador){
 		System.out.println("\n"+this.getNombre()+": Real Envido");
-		//condicional
+		ArrayList<Boolean> respuestaMaquina = new ArrayList<Boolean>();
+		respuestaMaquina = jugadorM.cantoRealEnvido(envido, envidoEnvido, contador, mentira, this);
+		//Condicional para ver si la maquina canto falta envido
+		if(!(respuestaMaquina.get(1))){
+			//Condicional para ver si quiso la maquina o no
+			if(respuestaMaquina.get(0)){
+				System.out.println("\n"+jugadorM.getNombre()+": Quiero");
+				int puntosHumano = this.obtenerPutnos();
+				int puntosMaquina = jugadorM.puntosMano();
+				System.out.println("\n"+this.getNombre()+": "+puntosHumano+" puntos");
+				System.out.println("\n"+jugadorM.getNombre()+": "+puntosMaquina+" puntos");
+				if(puntosHumano<puntosMaquina){
+					contador.sumarPuntos(jugadorM, contador.realEnvioQuerido(envido, envidoEnvido));
+				}else if(puntosHumano>puntosMaquina){
+					contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
+				}else{
+					if(this.isMano()){
+						contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
+					}else{
+						contador.sumarPuntos(jugadorM, contador.realEnvioQuerido(envido, envidoEnvido));
+					}
+				}
+			}else{
+				contador.sumarPuntos(this,contador.realEnvidoNoQuerido(envido, envidoEnvido));
+			}
+		}
 	}
 
 }

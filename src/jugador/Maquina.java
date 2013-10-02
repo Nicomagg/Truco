@@ -1,6 +1,7 @@
 package jugador;
 
 import Elementos.Carta;
+import Elementos.Contador;
 
 public class Maquina extends Jugador{
 
@@ -155,7 +156,45 @@ public class Maquina extends Jugador{
 		return false;
 	}
 	
-	//funcion para el truco
-	public 
+	//Funcion para cuando le cantan falta envido a la maquina
+	public boolean cantoFaltaEnvido(boolean envido, boolean envidoEnvido, boolean realEnvido, boolean mentir, Contador contador){
+		if(this.puntosMano()>29){
+			return true;
+		}else{
+			int puntosEnJuegos;
+			if(envido){
+				if(realEnvido){
+					puntosEnJuegos = 5;
+				}else{
+					puntosEnJuegos = 2;
+				}
+			}else if(envidoEnvido){
+				if(realEnvido){
+					puntosEnJuegos = 7;
+				}else{
+					puntosEnJuegos = 4;
+				}
+			}else if(realEnvido){
+				puntosEnJuegos = 3;
+			}else{
+				puntosEnJuegos = 1;
+			}
+			int puntosGanarHumano = 30 - contador.getPuntosJug();
+			int puntosGanarMaquina = 30 - contador.getPuntosMaq();
+			if(puntosGanarHumano <= puntosEnJuegos){
+				return true;
+			}else if(puntosGanarMaquina <= puntosEnJuegos){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//funcion para ver que hace la maquina cuando le cantan falta envido
+	public boolean cantoRealEnvido(boolean envido, boolean envidoEnvido, Contador contador, boolean mentir, Humano jugadorH){
+		if(mentir){
+			//Seguir aca mañana. Falta hacer el etodo para que la maquina cante falta envido,
+		}
+	}
 	
 }

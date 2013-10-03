@@ -197,6 +197,7 @@ public class Maquina extends Jugador{
 				}
 			}
 		}else{
+			System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
 			contador.sumarPuntos(this, contador.faltaEnvidoNoQuerida(envido, envidoEnvido, realEnvido));
 		}
 	}
@@ -228,6 +229,17 @@ public class Maquina extends Jugador{
 		respuesta.add(realEnvido);
 		respuesta.add(faltaEnvido);
 		return respuesta;
+	}
+	
+	//funcion para cantar real Envido la maquina
+	public void realEnvido(boolean envido, boolean envidoEnvido, Humano jugadorH, Contador contador, boolean mentir){
+		System.out.println("\n"+this.getNombre()+": Real Envido");
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		respuesta = jugadorH.cantoRealEnvido(envido, envidoEnvido, contador, this, mentir);
+		//COndicional para ver si se canto falta envido o no
+		if(!(respuesta.get(1))){
+			
+		}
 	}
 	
 }

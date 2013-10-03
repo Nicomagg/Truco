@@ -107,7 +107,7 @@ public class Contador {
 		return puntosGanados;
 	}
 	
-	//Funcion que retorna os puntos a sumar para el que gana el real envido
+	//Funcion que retorna los puntos a sumar para el que gana el real envido
 	public int realEnvioQuerido(boolean envido, boolean envidoEnvido){
 		int puntosGanados;
 		if(envido){
@@ -116,6 +116,28 @@ public class Contador {
 			puntosGanados = 7;
 		}else{
 			puntosGanados = 3;
+		}
+		return puntosGanados;
+	}
+	
+	//funcion que retorna los puntos a sumar para si se quiere el envido o envidoEnvido
+	public int envidoNoQuerido(boolean envido){
+		int puntosGanados;
+		if(envido){
+			puntosGanados = 2; 
+		}else{
+			puntosGanados = 1;
+		}
+		return puntosGanados;
+	}
+	
+	//funcion que retirna los puntos para un envido querido
+	public int envidoQuerido(boolean envido){
+		int puntosGanados;
+		if(envido){
+			puntosGanados=4;
+		}else{
+			puntosGanados = 2;
 		}
 		return puntosGanados;
 	}

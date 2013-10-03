@@ -35,13 +35,26 @@ public class Humano extends Jugador{
 	
 	public int obtenerPutnos(){
 		sc = new Scanner(System.in);
-		System.out.println("Ingrese sus puntos: ");
-		int num = sc.nextInt();
+		boolean error = true;
+		int num = 0;
+		while(error){
+			try{
+				System.out.println("Ingrese sus puntos: ");
+				num = sc.nextInt();
+				if(((num>=0)&&(num<=7))||((num>=20)&&(num<=33))){
+					error = false;
+				}else{
+					System.out.println("Error. Los puntos ingresados no son válidos. Si no posee puntos ingrese 0");
+				}
+			}catch (Exception e){
+				System.out.println("Error. El valor ingresado no es un número");
+			}
+		}
 		return num;
 	}
 	
 	//funcion para que el humano cante falta envido
-	public void cantarFaltaEnvido(boolean envido, boolean envidoEnvido, boolean realEnvido, Maquina jugadorM, Contador contador, boolean mentir){
+	public void faltaEnvido(boolean envido, boolean envidoEnvido, boolean realEnvido, Maquina jugadorM, Contador contador, boolean mentir){
 		System.out.println("\n"+this.getNombre()+": Falta Envido");
 		//condicion que verifica si la maquina quiere o no
 		if(jugadorM.cantoFaltaEnvido(envido, envidoEnvido, realEnvido, mentir, contador)){
@@ -62,6 +75,7 @@ public class Humano extends Jugador{
 				}
 			}
 		}else{
+			System.out.println("\n"+jugadorM.getNombre()+": No Quiero");
 			contador.sumarPuntos(this, contador.faltaEnvidoNoQuerida(envido, envidoEnvido, realEnvido));
 		}
 	}
@@ -119,6 +133,43 @@ public class Humano extends Jugador{
 				contador.sumarPuntos(this,contador.realEnvidoNoQuerido(envido, envidoEnvido));
 			}
 		}
+	}
+	
+	//funcion para ver uqe hace el humano si la maquina le canta real envido
+	public ArrayList<Boolean> cantoRealEnvido(boolean envido, boolean envidoEnvido,Contador contador, Maquina jugadorM, boolean mentir){
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		int resp = 0;
+		boolean realEnvido = false;
+		boolean faltaEnvido = false;
+		boolean error = true;
+		while(error){
+			try{
+				System.out.println("\n1-Quiero  --  2-No Quiero  --  3-Falta Envido");
+				resp = sc.nextInt();
+				if((resp<1)||(resp>3)){
+					System.out.println("\nError, el valor ingresado no corresponde a un número válido");
+				}else{
+					error = false;
+				}
+			}catch(Exception e){
+				System.out.println("\nError. El valor ingresado no es un número");
+			}
+		}
+		switch(resp){
+			case 1:
+				realEnvido = true;
+				break;
+			case 2:
+				realEnvido = false;
+				break;
+			case 3:
+				this.faltaEnvido(envido, envidoEnvido, true, jugadorM, contador, mentir);
+				faltaEnvido = true;
+				break;
+		}
+		respuesta.add(realEnvido);
+		respuesta.add(faltaEnvido);
+		return respuesta;
 	}
 
 }

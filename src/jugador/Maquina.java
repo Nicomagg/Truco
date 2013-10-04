@@ -238,7 +238,28 @@ public class Maquina extends Jugador{
 		respuesta = jugadorH.cantoRealEnvido(envido, envidoEnvido, contador, this, mentir);
 		//COndicional para ver si se canto falta envido o no
 		if(!(respuesta.get(1))){
-			
+			//Verifico respuesta humano
+			if(respuesta.get(0)){
+				System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+				int puntosMaquina = this.puntosMano();
+				int puntosHumano = jugadorH.obtenerPutnos();
+				System.out.println("\n"+this.getNombre()+": "+puntosMaquina+" puntos");
+				System.out.println("\n"+jugadorH.getNombre()+": "+puntosHumano+" puntos");
+				if(puntosMaquina<puntosHumano){
+					contador.sumarPuntos(jugadorH, contador.realEnvioQuerido(envido, envidoEnvido));
+				}else if(puntosMaquina>puntosHumano){
+					contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
+				}else{
+					if(this.isMano()){
+						contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
+					}else{
+						contador.sumarPuntos(jugadorH, contador.realEnvioQuerido(envido, envidoEnvido));
+					}
+				}
+			}else{
+				System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+				contador.sumarPuntos(this, contador.realEnvidoNoQuerido(envido, envidoEnvido));
+			}
 		}
 	}
 	

@@ -263,4 +263,60 @@ public class Maquina extends Jugador{
 		}
 	}
 	
+	//funcion para que la maquina respona a un envido cantado por el humano
+	public ArrayList<Boolean> cantoEnvido(boolean envido, Humano jugadorH, boolean mentir, Contador contador){
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		boolean resp = false;
+		boolean realEnvido = false;
+		boolean faltaEnvido = false;
+		if(!(envido)){
+			if(mentir){
+				//this.envido();
+				envido = true;
+			}else{
+				if((this.puntosMano()<29)&&(this.puntosMano()>24)){
+					resp = true;
+				}else if((this.puntosMano()<32)&&(this.puntosMano()>28)){
+					this.realEnvido(true, false, jugadorH, contador, mentir);
+					realEnvido = true;
+				}else if((this.puntosMano()<34)&&(this.puntosMano()>31)){
+					this.faltaEnvido(true, false, false, jugadorH, contador, mentir);
+				}else{
+					int puntosGanarHumano = 30 - contador.getPuntosJug();
+					int puntosGanarMaquina = 30 - contador.getPuntosMaq();
+					if(puntosGanarHumano <= contador.envidoNoQuerido(false)){
+						resp = true;
+					}else if(puntosGanarMaquina <= contador.envidoNoQuerido(false)){
+						this.faltaEnvido(true, false, false, jugadorH, contador, mentir);
+						faltaEnvido = true;
+					}
+				}
+			}
+		}else{
+			if(mentir){
+				this.faltaEnvido(false, true, false, jugadorH, contador, mentir);
+			}else{
+				if((this.puntosMano()<32)&&(this.puntosMano()>28)){
+					resp = true;
+				}else if((this.puntosMano()<34)&&(this.puntosMano()>31)){
+					this.faltaEnvido(false, true, false, jugadorH, contador, mentir);
+				}else{
+					int puntosGanarHumano = 30 - contador.getPuntosJug();
+					int puntosGanarMaquina = 30 - contador.getPuntosMaq();
+					if(puntosGanarHumano <= contador.envidoNoQuerido(true)){
+						resp = true;
+					}else if(puntosGanarMaquina <= contador.envidoNoQuerido(true)){
+						this.faltaEnvido(false, true, false, jugadorH, contador, mentir);
+						faltaEnvido = true;
+					}
+				}
+			}
+		}
+		respuesta.add(resp);
+		respuesta.add(envido);
+		respuesta.add(realEnvido);
+		respuesta.add(faltaEnvido);
+		return respuesta;
+	}
+
 }

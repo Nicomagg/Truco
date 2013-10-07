@@ -402,5 +402,61 @@ public class Maquina extends Jugador{
 		respuesta.add(reTruco);
 		return respuesta;
 	}
+	
+	//funcion para que la maquina canta truco
+	public ArrayList<Boolean> truco(Contador contador, Humano jugadorH){
+		System.out.println("\n"+this.getNombre()+": TRUCO!!!");
+		ArrayList<Boolean> respuestaTruco = new ArrayList<Boolean>();
+		boolean reTruco = false;
+		boolean resp = false;
+		ArrayList<Boolean> respuesta = jugadorH.cantoTruco(contador, this);
+		if(!(respuesta.get(1))){
+			if(respuesta.get(0)){
+				System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+				resp = true;
+			}else{
+				System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+				resp = false;
+			}
+		}else{
+			reTruco = true;
+		}
+		respuestaTruco.add(resp);
+		respuestaTruco.add(reTruco);
+		return respuestaTruco;
+	}
+	
+	//funcion para ver que hace la maquina cuando el humano canta re truco
+	public ArrayList<Boolean> cantoReTruco(Contador contador, Humano jugadorH, boolean mentir){
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		boolean resp = false;
+		boolean vale4 = false;
+		int puntosGanarHumano = 30 - contador.getPuntosJug();
+		if(puntosGanarHumano>=28){
+			//this.vale4();
+			vale4 = true;
+		}else{
+			if(this.cartarVale4()){
+				//this.vale4();
+				vale4 = true;
+			}else{
+				if(mentir){
+					//this.vale4();
+					vale4 = true;
+				}else{
+					if(this.cartarReTruco()){
+						System.out.println("\n"+this.getNombre()+": Quiero!");
+						resp = true;
+					}else{
+						System.out.println("\n"+this.getNombre()+": No Quiero!");
+					}
+				}
+			}
+		}
+		
+		respuesta.add(resp);
+		respuesta.add(vale4);
+		return respuesta;
+	}
 
 }

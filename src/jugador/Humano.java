@@ -318,18 +318,84 @@ public class Humano extends Jugador{
 	}
 	
 	//funcion para que el humano cante truco
-	public boolean truco(Contador contador, Maquina jugadorM){
+	public ArrayList<Boolean> truco(Contador contador, Maquina jugadorM){
 		System.out.println("\n"+this.getNombre()+": TRUCO!!!");
+		ArrayList<Boolean> respuestaTruco = new ArrayList<Boolean>();
 		ArrayList<Boolean> respuesta = jugadorM.cantoTruco(contador);
+		boolean resp = false;
+		boolean reTruco = false;
 		if(!(respuesta.get(1))){
 			if(respuesta.get(0)){
 				System.out.println("\n"+jugadorM.getNombre()+": Quiero");
-				return true;
+				resp = true;
 			}else{
 				System.out.println("\n"+jugadorM.getNombre()+": No Quiero");
-				return false;
+				resp = false;
+			}
+		}else{
+			reTruco = true;
+		}
+		respuestaTruco.add(resp);
+		respuestaTruco.add(reTruco);
+		return respuestaTruco;
+	}
+	
+	//FUncion para ver que hace la maquina cuando la aquina canta truco
+	public ArrayList<Boolean> cantoTruco(Contador contador, Maquina jugadorM){
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		boolean reTruco = false;
+		int resp = 0;
+		boolean respBoolean = false;
+		boolean error = true;
+		
+		while(error){
+			try{
+				System.out.println("\n1-Quiero  --  2-No Quiero  --  3-QUIERO RETRUCO!!!");
+				resp = sc.nextInt();
+				if((resp<1)||(resp>3)){
+					System.out.println("\nError. El valor ingresado no corresponde a un número válido.");
+				}else{
+					error = false;
+				}
+			}catch(Exception e){
+				System.out.println("\nError. El valor ingresado no es un número");
 			}
 		}
-		return false;
+		
+		switch(resp){
+			case 1:
+				respBoolean = true;
+				break;
+			case 2:
+				respBoolean = false;
+				break;
+			case 3:
+				//this.Retruco();
+				reTruco = true;
+		}
+		
+		respuesta.add(respBoolean);
+		respuesta.add(reTruco);
+		return respuesta;
+	}
+	
+	//Funcion para que el humano cante reTruco
+	public ArrayList<Boolean> reTruco(Contador contador, Maquina jugadorM, boolean mentir){
+		System.out.println("\n"+this.getNombre()+": QUIERO RETRUCO!!!");
+		ArrayList<Boolean> respReTruco = new ArrayList<Boolean>();
+		ArrayList<Boolean> respMaquina = jugadorM.cantoReTruco(contador, this, mentir);
+		boolean respMaquinaReTruco = false;
+		boolean vale4 = false;
+		if(!(respMaquina.get(1))){
+			if(respMaquina.get(0)){
+				respMaquinaReTruco = true;
+			}
+		}else{
+			vale4 = true;
+		}
+		
+		respReTruco.add(respMaquinaReTruco);
+		respReTruco.add(vale4);
+		return respReTruco;
 	}
 }

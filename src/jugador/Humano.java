@@ -316,4 +316,20 @@ public class Humano extends Jugador{
 		
 		return respuesta;
 	}
+	
+	//funcion para que el humano cante truco
+	public boolean truco(Contador contador, Maquina jugadorM){
+		System.out.println("\n"+this.getNombre()+": TRUCO!!!");
+		ArrayList<Boolean> respuesta = jugadorM.cantoTruco(contador);
+		if(!(respuesta.get(1))){
+			if(respuesta.get(0)){
+				System.out.println("\n"+jugadorM.getNombre()+": Quiero");
+				return true;
+			}else{
+				System.out.println("\n"+jugadorM.getNombre()+": No Quiero");
+				return false;
+			}
+		}
+		return false;
+	}
 }

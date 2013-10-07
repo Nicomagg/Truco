@@ -3,9 +3,7 @@ package principal;
 import java.util.Scanner;
 
 import jugador.Humano;
-import jugador.Jugador;
 import jugador.Maquina;
-import Elementos.Carta;
 import Elementos.Contador;
 import Elementos.Mazo;
 

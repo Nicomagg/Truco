@@ -111,7 +111,7 @@ public class Maquina extends Jugador{
 	}
 	
 	//Funcion para ver si tengo cartas para el truco
-	public boolean cartaTruco(){
+	public boolean cartarTruco(){
 		if((this.getCartas()[0].getValor() > 7)&&(this.getCartas()[1].getValor() > 7)){
 			return true;
 		}else if((this.getCartas()[1].getValor() > 7)&&(this.getCartas()[2].getValor() > 7)){
@@ -123,7 +123,7 @@ public class Maquina extends Jugador{
 	}
 	
 	//Funcion para ver si tengo cartas para el reTruco
-	public boolean cartaReTruco(){
+	public boolean cartarReTruco(){
 		if((this.getCartas()[0].getValor() > 9)&&(this.getCartas()[1].getValor() > 9)){
 			return true;
 		}else if((this.getCartas()[1].getValor() > 9)&&(this.getCartas()[2].getValor() > 9)){
@@ -141,7 +141,7 @@ public class Maquina extends Jugador{
 	}
 	
 	//Funcion para ver si tengo cartas para el vale 4
-	public boolean cartaVale4(){
+	public boolean cartarVale4(){
 		if((this.getCartas()[0].getValor() > 10)&&(this.getCartas()[1].getValor() > 10)){
 			return true;
 		}else if((this.getCartas()[1].getValor() > 10)&&(this.getCartas()[2].getValor() > 10)){
@@ -271,7 +271,7 @@ public class Maquina extends Jugador{
 		boolean faltaEnvido = false;
 		if(!(envido)){
 			if(mentir){
-				//this.envido();
+				this.envido(true, contador, mentir, jugadorH);
 				envido = true;
 			}else{
 				if((this.puntosMano()<29)&&(this.puntosMano()>24)){
@@ -316,6 +316,90 @@ public class Maquina extends Jugador{
 		respuesta.add(envido);
 		respuesta.add(realEnvido);
 		respuesta.add(faltaEnvido);
+		return respuesta;
+	}
+	
+	//Funcion para que la maquina cante falta envido
+	public void envido(boolean envido, Contador contador, boolean mentir, Humano jugadorH){
+		ArrayList<Boolean> respuesta;
+		if(!(envido)){
+			System.out.println("\n"+this.getNombre()+": Envido");
+			respuesta =jugadorH.cantoEnvido(envido, mentir, contador, this);
+			if((!(respuesta.get(1)))&&(!(respuesta.get(2)))&&(!(respuesta.get(3)))){
+				if(respuesta.get(0)){
+					System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+					int puntosMaquina = this.puntosMano();
+					int puntosHumano = jugadorH.obtenerPutnos();
+					System.out.println("\n"+this.getNombre()+": "+puntosMaquina+"puntos");
+					System.out.println("\n"+jugadorH.getNombre()+": "+puntosHumano+"puntos");
+					if(puntosMaquina<puntosHumano){
+						contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+					}else if(puntosMaquina>puntosHumano){
+						contador.sumarPuntos(this, contador.envidoQuerido(envido));
+					}else{
+						if(this.isMano()){
+							contador.sumarPuntos(this, contador.envidoQuerido(envido));
+						}else{
+							contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+						}
+					}
+				}else{
+					System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+					contador.sumarPuntos(this, contador.envidoNoQuerido(envido));
+				}
+			}
+		}else{
+			System.out.println("\n"+this.getNombre()+": Envido Envido");
+			respuesta =jugadorH.cantoEnvido(envido, mentir, contador, this);
+			if((!(respuesta.get(2)))&&(!(respuesta.get(3)))){
+				if(respuesta.get(0)){
+					System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+					int puntosMaquina = this.puntosMano();
+					int puntosHumano = jugadorH.obtenerPutnos();
+					System.out.println("\n"+this.getNombre()+": "+puntosMaquina+"puntos");
+					System.out.println("\n"+jugadorH.getNombre()+": "+puntosHumano+"puntos");
+					if(puntosMaquina<puntosHumano){
+						contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+					}else if(puntosMaquina>puntosHumano){
+						contador.sumarPuntos(this, contador.envidoQuerido(envido));
+					}else{
+						if(this.isMano()){
+							contador.sumarPuntos(this, contador.envidoQuerido(envido));
+						}else{
+							contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+						}
+					}
+				}else{
+					System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+					contador.sumarPuntos(this, contador.envidoNoQuerido(envido));
+				}
+			}
+		}
+	}
+	
+	public ArrayList<Boolean> cantoTruco(Contador contador){
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		boolean reTruco = false;
+		boolean resp = false;;
+		int puntosGanarHumano = 30 - contador.getPuntosJug();
+		if(puntosGanarHumano==29){
+			//this.reTruco();
+			reTruco = true;
+		}else{
+			if(this.cartarTruco()){
+				if(this.cartarReTruco()){
+					//this.reTruco();
+					reTruco = true;
+				}else{
+					resp = true;
+				}
+			}else{
+				resp = false;
+			}
+		}
+		
+		respuesta.add(resp);
+		respuesta.add(reTruco);
 		return respuesta;
 	}
 

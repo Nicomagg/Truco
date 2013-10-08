@@ -111,7 +111,7 @@ public class Maquina extends Jugador{
 	}
 	
 	//Funcion para ver si tengo cartas para el truco
-	public boolean cartarTruco(){
+	public boolean cantarTruco(){
 		if((this.getCartas()[0].getValor() > 7)&&(this.getCartas()[1].getValor() > 7)){
 			return true;
 		}else if((this.getCartas()[1].getValor() > 7)&&(this.getCartas()[2].getValor() > 7)){
@@ -123,7 +123,7 @@ public class Maquina extends Jugador{
 	}
 	
 	//Funcion para ver si tengo cartas para el reTruco
-	public boolean cartarReTruco(){
+	public boolean cantarReTruco(){
 		if((this.getCartas()[0].getValor() > 9)&&(this.getCartas()[1].getValor() > 9)){
 			return true;
 		}else if((this.getCartas()[1].getValor() > 9)&&(this.getCartas()[2].getValor() > 9)){
@@ -141,7 +141,7 @@ public class Maquina extends Jugador{
 	}
 	
 	//Funcion para ver si tengo cartas para el vale 4
-	public boolean cartarVale4(){
+	public boolean cantarVale4(){
 		if((this.getCartas()[0].getValor() > 10)&&(this.getCartas()[1].getValor() > 10)){
 			return true;
 		}else if((this.getCartas()[1].getValor() > 10)&&(this.getCartas()[2].getValor() > 10)){
@@ -385,8 +385,8 @@ public class Maquina extends Jugador{
 		if(puntosGanarHumano==29){
 			reTruco = true;
 		}else{
-			if(this.cartarTruco()){
-				if(this.cartarReTruco()){
+			if(this.cantarTruco()){
+				if(this.cantarReTruco()){
 					reTruco = true;
 				}else{
 					resp = true;
@@ -407,7 +407,7 @@ public class Maquina extends Jugador{
 		ArrayList<Boolean> respuestaTruco = new ArrayList<Boolean>();
 		boolean reTruco = false;
 		boolean resp = false;
-		ArrayList<Boolean> respuesta = jugadorH.cantoTruco(contador, this);
+		ArrayList<Boolean> respuesta = jugadorH.cantoTruco();
 		if(!(respuesta.get(1))){
 			if(respuesta.get(0)){
 				System.out.println("\n"+jugadorH.getNombre()+": Quiero");
@@ -433,13 +433,13 @@ public class Maquina extends Jugador{
 		if(puntosGanarHumano>=28){
 			vale4 = true;
 		}else{
-			if(this.cartarVale4()){
+			if(this.cantarVale4()){
 				vale4 = true;
 			}else{
 				if(mentir){
 					vale4 = true;
 				}else{
-					if(this.cartarReTruco()){
+					if(this.cantarReTruco()){
 						System.out.println("\n"+this.getNombre()+": Quiero!");
 						resp = true;
 					}else{
@@ -475,6 +475,24 @@ public class Maquina extends Jugador{
 		respuesta.add(resp);
 		respuesta.add(vale4);
 		return respuesta;
+	}
+	
+	//funcion para ver que hace la maquina cuando le cantan vale 4
+	public boolean cantoVale4(Contador contador, Humano jugadorH, boolean mentir){
+		if(this.cantarVale4()){
+			return true;
+		}else{
+			int puntosGanarHumano = 30 - contador.getPuntosJug();
+			int diferencia = Math.abs(contador.getPuntosJug()-contador.getPuntosMaq());
+			if(puntosGanarHumano>=27){
+				return true;
+			}else{
+				if((diferencia>9)&&(this.cantarReTruco())){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

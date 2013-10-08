@@ -436,4 +436,10 @@ public class Humano extends Jugador{
 		respuesta.add(vale4);
 		return respuesta;
 	}
+	
+	//Funcion para que el humano cante vale 4
+	public ArrayList<Boolean> vale4(Contador contador, Maquina jugadorM, boolean mentir){
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		ArrayList<Boolean> respMaquina;
+	}
 }

@@ -495,4 +495,10 @@ public class Maquina extends Jugador{
 		return false;
 	}
 
+	//FUncion para que la maquina cante vale4
+	public boolean vale4(Humano jugadorH){
+		System.out.println("\n"+this.getNombre()+": QUIERO VALE 4!!!");
+		boolean resp = jugadorH.cantoVale4();
+		return resp;
+	}
 }

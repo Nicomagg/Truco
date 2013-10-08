@@ -438,8 +438,14 @@ public class Humano extends Jugador{
 	}
 	
 	//Funcion para que el humano cante vale 4
-	public ArrayList<Boolean> vale4(Contador contador, Maquina jugadorM, boolean mentir){
-		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
-		ArrayList<Boolean> respMaquina;
+	public boolean vale4(Contador contador, Maquina jugadorM, boolean mentir){
+		boolean resp = jugadorM.cantoVale4(contador, this, mentir);
+		if(resp){
+			System.out.println("\n"+jugadorM.getNombre()+": Quiero");
+			return true;
+		}else{
+			System.out.println("\n"+jugadorM.getNombre()+": No Quiero");
+			return false;
+		}
 	}
 }

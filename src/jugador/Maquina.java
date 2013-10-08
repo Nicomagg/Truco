@@ -455,13 +455,26 @@ public class Maquina extends Jugador{
 	}
 	
 	//funcion para que la maquina cante reTruco
-	public ArrayList<Boolean> reTruco(Contador contador, Humano jugdorH, boolean mentir){
+	public ArrayList<Boolean> reTruco(Contador contador, Humano jugadorH, boolean mentir){
 		System.out.println("\n"+this.getNombre()+": QUIERO RETRUCO!!!");
 		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
-		ArrayList<Boolean> respHumano;
+		ArrayList<Boolean> respHumano = jugadorH.cantoReTruco();
 		boolean resp = false;
 		boolean vale4 = false;
+		if(!(respHumano.get(1))){
+			if(respHumano.get(0)){
+				System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+				resp = true;
+			}else{
+				System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+			}
+		}else{
+			vale4 = true;
+		}
 		
+		respuesta.add(resp);
+		respuesta.add(vale4);
+		return respuesta;
 	}
 
 }

@@ -341,7 +341,7 @@ public class Humano extends Jugador{
 	}
 	
 	//FUncion para ver que hace la maquina cuando la aquina canta truco
-	public ArrayList<Boolean> cantoTruco(Contador contador, Maquina jugadorM){
+	public ArrayList<Boolean> cantoTruco(){
 		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
 		boolean reTruco = false;
 		int resp = 0;
@@ -370,7 +370,6 @@ public class Humano extends Jugador{
 				respBoolean = false;
 				break;
 			case 3:
-				//this.Retruco();
 				reTruco = true;
 		}
 		
@@ -397,5 +396,44 @@ public class Humano extends Jugador{
 		respReTruco.add(respMaquinaReTruco);
 		respReTruco.add(vale4);
 		return respReTruco;
+	}
+	
+	//Funcion para ver que hace la maquina cuando el jugador canta reTruco
+	public ArrayList<Boolean> cantoReTruco(){
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		boolean resp = false;
+		int respNum = 0;
+		boolean vale4 = false;
+		boolean error = true;
+		
+		while(error){
+			try{
+				System.out.println("\n1-Quiero  --  2-No Quiero  --  3-QUIERO VALE 4!!!");
+				respNum = sc.nextInt();
+				if((respNum<1)&&(respNum>3)){
+					System.out.println("\nError, el valor ingresado no corresponde a un número válido");
+				}else{
+					error = false;
+				}
+			}catch(Exception e){
+				System.out.println("\nError. El valor ingresado no es un número");
+			}
+		}
+		
+		switch(respNum){
+			case 1:
+				resp = true;
+				break;
+			case 2:
+				resp = false;
+				break;
+			case 3:
+				vale4 = true;
+				break;
+		}
+		
+		respuesta.add(resp);
+		respuesta.add(vale4);
+		return respuesta;
 	}
 }

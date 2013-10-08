@@ -383,12 +383,10 @@ public class Maquina extends Jugador{
 		boolean resp = false;;
 		int puntosGanarHumano = 30 - contador.getPuntosJug();
 		if(puntosGanarHumano==29){
-			//this.reTruco();
 			reTruco = true;
 		}else{
 			if(this.cartarTruco()){
 				if(this.cartarReTruco()){
-					//this.reTruco();
 					reTruco = true;
 				}else{
 					resp = true;
@@ -433,15 +431,12 @@ public class Maquina extends Jugador{
 		boolean vale4 = false;
 		int puntosGanarHumano = 30 - contador.getPuntosJug();
 		if(puntosGanarHumano>=28){
-			//this.vale4();
 			vale4 = true;
 		}else{
 			if(this.cartarVale4()){
-				//this.vale4();
 				vale4 = true;
 			}else{
 				if(mentir){
-					//this.vale4();
 					vale4 = true;
 				}else{
 					if(this.cartarReTruco()){
@@ -457,6 +452,16 @@ public class Maquina extends Jugador{
 		respuesta.add(resp);
 		respuesta.add(vale4);
 		return respuesta;
+	}
+	
+	//funcion para que la maquina cante reTruco
+	public ArrayList<Boolean> reTruco(Contador contador, Humano jugdorH, boolean mentir){
+		System.out.println("\n"+this.getNombre()+": QUIERO RETRUCO!!!");
+		ArrayList<Boolean> respuesta = new ArrayList<Boolean>();
+		ArrayList<Boolean> respHumano;
+		boolean resp = false;
+		boolean vale4 = false;
+		
 	}
 
 }

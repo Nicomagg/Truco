@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import Elementos.Carta;
 import Elementos.Contador;
 
-public class Maquina extends Jugador{
+public class Maquina extends Jugador implements Comparable<Object>{
 
 	public Maquina(String nom) {
 		super(nom);
@@ -500,5 +500,11 @@ public class Maquina extends Jugador{
 		System.out.println("\n"+this.getNombre()+": QUIERO VALE 4!!!");
 		boolean resp = jugadorH.cantoVale4();
 		return resp;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

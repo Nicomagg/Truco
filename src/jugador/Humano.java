@@ -473,4 +473,11 @@ public class Humano extends Jugador{
 		
 		return false;
 	}
+	
+	//metodo para que el humano juegue una carta
+	public void jugarCarta(int posi){
+		if(){
+			
+		}
+	}
 }

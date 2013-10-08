@@ -448,4 +448,29 @@ public class Humano extends Jugador{
 			return false;
 		}
 	}
+	
+	//Funcion para ver que hace el humano cuando le cantan vale 4
+	public boolean cantoVale4(){
+		boolean error = true;
+		int resp = 0;
+		while(error){
+			try{
+				System.out.println("\n1-Quiero  --  2-No Quiero");
+				resp = sc.nextInt();
+				if((resp<1)||(resp>2)){
+					System.out.println("\nError. El valor ingresado no corresponde a una opción válida");
+				}else{
+					error = false;
+				}
+			}catch(Exception e){
+				System.out.println("\nError. El valor ingresado no es un número");
+			}
+		}
+		
+		if(resp == 1){
+			return true;
+		}
+		
+		return false;
+	}
 }

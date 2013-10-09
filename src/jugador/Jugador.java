@@ -45,7 +45,7 @@ public abstract class Jugador {
 	
 	@Override
 	public String toString() {
-		return (Arrays.toString(cartas));
+		return (Arrays.toString(this.getCartas()));
 	}
 
 	//Funcion que verifica si es la maquina o el jugador humano

@@ -39,7 +39,7 @@ public class Humano extends Jugador{
 		int num = 0;
 		while(error){
 			try{
-				System.out.println("Ingrese sus puntos: ");
+				System.out.print("Ingrese sus puntos: ");
 				num = sc.nextInt();
 				if(((num>=0)&&(num<=7))||((num>=20)&&(num<=33))){
 					error = false;
@@ -48,6 +48,7 @@ public class Humano extends Jugador{
 				}
 			}catch (Exception e){
 				System.out.println("Error. El valor ingresado no es un número");
+				System.exit(1);
 			}
 		}
 		return num;
@@ -85,7 +86,7 @@ public class Humano extends Jugador{
 		boolean error = true;
 		int respuesta = 0;
 		while(error){
-			System.out.print("\n1-Quiero  --  2-No Quiero");
+			System.out.print("\n1-Quiero  --  2-No Quiero \nRespuesta:");
 			try{
 				respuesta = sc.nextInt();
 				if((respuesta<1)&&(respuesta>2)){
@@ -95,6 +96,7 @@ public class Humano extends Jugador{
 				}
 			}catch(Exception e){
 				System.out.println("\nError, el valor ingresado no es número");
+				System.exit(1);
 			}
 		}		
 		if(respuesta == 1){
@@ -144,7 +146,7 @@ public class Humano extends Jugador{
 		boolean error = true;
 		while(error){
 			try{
-				System.out.println("\n1-Quiero  --  2-No Quiero  --  3-Falta Envido");
+				System.out.print("\n1-Quiero  --  2-No Quiero  --  3-Falta Envido \nRespuesta:");
 				resp = sc.nextInt();
 				if((resp<1)||(resp>3)){
 					System.out.println("\nError, el valor ingresado no corresponde a un número válido");
@@ -153,6 +155,7 @@ public class Humano extends Jugador{
 				}
 			}catch(Exception e){
 				System.out.println("\nError. El valor ingresado no es un número");
+				System.exit(1);
 			}
 		}
 		switch(resp){
@@ -246,7 +249,7 @@ public class Humano extends Jugador{
 		if(!(envido)){
 			while(error){
 				try{
-					System.out.println("1-Quiero  --  2-No Quiero  --  3-Envido  --  4-Real Envido  --  5-Falta Envido");
+					System.out.print("1-Quiero  --  2-No Quiero  --  3-Envido  --  4-Real Envido  --  5-Falta Envido \nRespuesta:");
 					respuestaHumano = sc.nextInt();
 					if((respuestaHumano<1)&&(respuestaHumano>5)){
 						System.out.println("\nError, el valor ingresado no corresponde a un número válido.");
@@ -255,6 +258,7 @@ public class Humano extends Jugador{
 					}
 				}catch(Exception e){
 					System.out.println("\nError, el valor ingresado no es un número");
+					System.exit(1);
 				}
 			}
 			switch(respuestaHumano){
@@ -280,7 +284,7 @@ public class Humano extends Jugador{
 		}else{
 			while(error){
 				try{
-					System.out.println("1-Quiero  --  2-No Quiero  --  3-Real Envido  --  4-Falta Envido");
+					System.out.print("1-Quiero  --  2-No Quiero  --  3-Real Envido  --  4-Falta Envido \nRespuesta:");
 					respuestaHumano = sc.nextInt();
 					if((respuestaHumano<1)&&(respuestaHumano>4)){
 						System.out.println("\nError, el valor ingresado no corresponde a un número válido.");
@@ -289,6 +293,7 @@ public class Humano extends Jugador{
 					}
 				}catch(Exception e){
 					System.out.println("\nError, el valor ingresado no es un número");
+					System.exit(1);
 				}
 			}
 			switch(respuestaHumano){
@@ -350,7 +355,7 @@ public class Humano extends Jugador{
 		
 		while(error){
 			try{
-				System.out.println("\n1-Quiero  --  2-No Quiero  --  3-QUIERO RETRUCO!!!");
+				System.out.print("\n1-Quiero  --  2-No Quiero  --  3-QUIERO RETRUCO!!! \nRespuesta:");
 				resp = sc.nextInt();
 				if((resp<1)||(resp>3)){
 					System.out.println("\nError. El valor ingresado no corresponde a un número válido.");
@@ -359,6 +364,7 @@ public class Humano extends Jugador{
 				}
 			}catch(Exception e){
 				System.out.println("\nError. El valor ingresado no es un número");
+				System.exit(1);
 			}
 		}
 		
@@ -408,7 +414,7 @@ public class Humano extends Jugador{
 		
 		while(error){
 			try{
-				System.out.println("\n1-Quiero  --  2-No Quiero  --  3-QUIERO VALE 4!!!");
+				System.out.print("\n1-Quiero  --  2-No Quiero  --  3-QUIERO VALE 4!!! \nRespuesta:");
 				respNum = sc.nextInt();
 				if((respNum<1)&&(respNum>3)){
 					System.out.println("\nError, el valor ingresado no corresponde a un número válido");
@@ -417,6 +423,7 @@ public class Humano extends Jugador{
 				}
 			}catch(Exception e){
 				System.out.println("\nError. El valor ingresado no es un número");
+				System.exit(1);
 			}
 		}
 		
@@ -455,7 +462,7 @@ public class Humano extends Jugador{
 		int resp = 0;
 		while(error){
 			try{
-				System.out.println("\n1-Quiero  --  2-No Quiero");
+				System.out.print("\n1-Quiero  --  2-No Quiero \nRespuesta:");
 				resp = sc.nextInt();
 				if((resp<1)||(resp>2)){
 					System.out.println("\nError. El valor ingresado no corresponde a una opción válida");
@@ -464,6 +471,7 @@ public class Humano extends Jugador{
 				}
 			}catch(Exception e){
 				System.out.println("\nError. El valor ingresado no es un número");
+				System.exit(1);
 			}
 		}
 		
@@ -474,12 +482,4 @@ public class Humano extends Jugador{
 		return false;
 	}
 	
-	//metodo para que el humano juegue una carta
-	public boolean jugarCarta(int posi){
-		if(this.getCartas()[posi].isHabilitada()){
-			this.getCartas()[posi].setHabilitada(false);
-			return false;
-		}
-		return false;
-	}
 }

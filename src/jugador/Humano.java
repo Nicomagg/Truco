@@ -475,9 +475,11 @@ public class Humano extends Jugador{
 	}
 	
 	//metodo para que el humano juegue una carta
-	public void jugarCarta(int posi){
-		if(){
-			
+	public boolean jugarCarta(int posi){
+		if(this.getCartas()[posi].isHabilitada()){
+			this.getCartas()[posi].setHabilitada(false);
+			return false;
 		}
+		return false;
 	}
 }

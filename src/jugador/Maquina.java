@@ -180,11 +180,11 @@ public class Maquina extends Jugador{
 		System.out.println("\n"+this.getNombre()+": Falta Envido");
 		//condicional para ver si el humano quiere
 		if(jugadorH.cantoFaltaEnvido()){
-			System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+			System.out.println(jugadorH.getNombre()+": Quiero");
 			int puntosMaquina = this.puntosMano();
 			int puntosHumano = jugadorH.obtenerPutnos();
 			System.out.println("\n"+this.getNombre()+": "+puntosMaquina+" puntos.");
-			System.out.println("\n"+jugadorH.getNombre()+": "+puntosHumano+" puntos.");
+			System.out.println(jugadorH.getNombre()+": "+puntosHumano+" puntos.");
 			if(puntosMaquina<puntosHumano){
 				contador.sumarFaltaEnvido(jugadorH);
 			}else if(puntosMaquina>puntosHumano){
@@ -197,7 +197,7 @@ public class Maquina extends Jugador{
 				}
 			}
 		}else{
-			System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+			System.out.println(jugadorH.getNombre()+": No Quiero");
 			contador.sumarPuntos(this, contador.faltaEnvidoNoQuerida(envido, envidoEnvido, realEnvido));
 		}
 	}
@@ -240,11 +240,11 @@ public class Maquina extends Jugador{
 		if(!(respuesta.get(1))){
 			//Verifico respuesta humano
 			if(respuesta.get(0)){
-				System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+				System.out.println(jugadorH.getNombre()+": Quiero");
 				int puntosMaquina = this.puntosMano();
 				int puntosHumano = jugadorH.obtenerPutnos();
 				System.out.println("\n"+this.getNombre()+": "+puntosMaquina+" puntos");
-				System.out.println("\n"+jugadorH.getNombre()+": "+puntosHumano+" puntos");
+				System.out.println(jugadorH.getNombre()+": "+puntosHumano+" puntos");
 				if(puntosMaquina<puntosHumano){
 					contador.sumarPuntos(jugadorH, contador.realEnvioQuerido(envido, envidoEnvido));
 				}else if(puntosMaquina>puntosHumano){
@@ -257,7 +257,7 @@ public class Maquina extends Jugador{
 					}
 				}
 			}else{
-				System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+				System.out.println(jugadorH.getNombre()+": No Quiero");
 				contador.sumarPuntos(this, contador.realEnvidoNoQuerido(envido, envidoEnvido));
 			}
 		}
@@ -327,11 +327,11 @@ public class Maquina extends Jugador{
 			respuesta =jugadorH.cantoEnvido(envido, mentir, contador, this);
 			if((!(respuesta.get(1)))&&(!(respuesta.get(2)))&&(!(respuesta.get(3)))){
 				if(respuesta.get(0)){
-					System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+					System.out.println(jugadorH.getNombre()+": Quiero");
 					int puntosMaquina = this.puntosMano();
 					int puntosHumano = jugadorH.obtenerPutnos();
 					System.out.println("\n"+this.getNombre()+": "+puntosMaquina+"puntos");
-					System.out.println("\n"+jugadorH.getNombre()+": "+puntosHumano+"puntos");
+					System.out.println(jugadorH.getNombre()+": "+puntosHumano+"puntos");
 					if(puntosMaquina<puntosHumano){
 						contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
 					}else if(puntosMaquina>puntosHumano){
@@ -344,7 +344,7 @@ public class Maquina extends Jugador{
 						}
 					}
 				}else{
-					System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+					System.out.println(jugadorH.getNombre()+": No Quiero");
 					contador.sumarPuntos(this, contador.envidoNoQuerido(envido));
 				}
 			}
@@ -353,11 +353,11 @@ public class Maquina extends Jugador{
 			respuesta =jugadorH.cantoEnvido(envido, mentir, contador, this);
 			if((!(respuesta.get(2)))&&(!(respuesta.get(3)))){
 				if(respuesta.get(0)){
-					System.out.println("\n"+jugadorH.getNombre()+": Quiero");
+					System.out.println(jugadorH.getNombre()+": Quiero");
 					int puntosMaquina = this.puntosMano();
 					int puntosHumano = jugadorH.obtenerPutnos();
 					System.out.println("\n"+this.getNombre()+": "+puntosMaquina+"puntos");
-					System.out.println("\n"+jugadorH.getNombre()+": "+puntosHumano+"puntos");
+					System.out.println(jugadorH.getNombre()+": "+puntosHumano+"puntos");
 					if(puntosMaquina<puntosHumano){
 						contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
 					}else if(puntosMaquina>puntosHumano){
@@ -370,7 +370,7 @@ public class Maquina extends Jugador{
 						}
 					}
 				}else{
-					System.out.println("\n"+jugadorH.getNombre()+": No Quiero");
+					System.out.println(jugadorH.getNombre()+": No Quiero");
 					contador.sumarPuntos(this, contador.envidoNoQuerido(envido));
 				}
 			}

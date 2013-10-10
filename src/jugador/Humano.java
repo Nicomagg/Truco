@@ -483,4 +483,395 @@ public class Humano extends Jugador{
 		return false;
 	}
 	
+	//metodo para pedir que el jugador juegue una carta
+	public int pedirCarta(boolean prim,boolean seg,boolean terc,boolean truco,boolean reTruco,boolean vale4){
+		boolean error = true;
+		int resp = 0;
+		//Verifico que no se ingrese cualquier cosa
+		while(error){
+			try{
+				if((!(truco))&&(!(reTruco))&&(!(vale4))){
+					if(prim && seg && terc){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Jugar 3ra Carta");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+						}
+					}else if(prim && seg){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>2)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+						}
+					}else if(seg && terc){
+						System.out.print("\n1-Jugar 2da Carta \n2-Jugar 3ra Carta");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>2)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==1){
+								resp = 2;
+							}else{
+								resp = 3;
+							}
+						}
+					}else if(prim && terc){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 3ra Carta");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>2)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==2){
+								resp = 3;
+							}
+						}
+					}else if(prim){
+						System.out.print("\n1-Jugar 1ra Carta");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if(!(resp==1)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+						}
+					}else if(seg){
+						System.out.print("\n1-Jugar 2da Carta");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if(!(resp==1)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							resp = 2;
+						}
+					}else if(terc){
+						System.out.print("\n3-Jugar 3ra Carta");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if(!(resp==3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							resp = 3;
+						}
+					}
+				}else if(truco){
+					if(prim && seg && terc){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Jugar 3ra Carta \n4-Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>4)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==4){
+								resp = 7;
+							}
+						}
+					}else if(prim && seg){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==3){
+								resp = 7;
+							}
+						}
+					}else if(seg && terc){
+						System.out.print("\n1-Jugar 2da Carta \n2-Jugar 3ra Carta \n3-Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							switch(resp){
+								case 1:
+									resp = 2;
+									break;
+								case 2:
+									resp = 3;
+									break;
+								case 3:
+									resp = 7;
+									break;
+							}
+						}
+					}else if(prim && terc){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 3ra Carta \n3-Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==2){
+								resp = 3;
+							}else if(resp == 3){
+								resp = 7;
+							}
+						}
+					}else if(prim){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))==(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp == 2){
+								resp = 7;
+							}
+						}
+					}else if(seg){
+						System.out.print("\n1-Jugar 2da Carta \n2-Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))||(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp == 1){
+								resp = 2;
+							}else{
+								resp = 7;
+							}
+						}
+					}else if(terc){
+						System.out.print("\n1-Jugar 3ra Carta \n2-Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))||(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==1){
+								resp=3;
+							}else{
+								resp = 7;
+							}
+						}
+					}
+				}else if(reTruco){
+					if(prim && seg && terc){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Jugar 3ra Carta \n4-Re Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>4)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==4){
+								resp = 8;
+							}
+						}
+					}else if(prim && seg){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Re Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==3){
+								resp = 8;
+							}
+						}
+					}else if(seg && terc){
+						System.out.print("\n1-Jugar 2da Carta \n2-Jugar 3ra Carta \n3-Re Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							switch(resp){
+								case 1:
+									resp = 2;
+									break;
+								case 2:
+									resp = 3;
+									break;
+								case 3:
+									resp = 8;
+									break;
+							}
+						}
+					}else if(prim && terc){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 3ra Carta \n3-Re Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==2){
+								resp = 3;
+							}else if(resp == 3){
+								resp = 8;
+							}
+						}
+					}else if(prim){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Re Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))==(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp == 2){
+								resp = 8;
+							}
+						}
+					}else if(seg){
+						System.out.print("\n1-Jugar 2da Carta \n2-Re Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))||(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp == 1){
+								resp = 2;
+							}else{
+								resp = 8;
+							}
+						}
+					}else if(terc){
+						System.out.print("\n1-Jugar 3ra Carta \n2-Re Truco");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))||(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==1){
+								resp=3;
+							}else{
+								resp = 8;
+							}
+						}
+					}
+				}else if(vale4){
+					if(prim && seg && terc){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Jugar 3ra Carta \n4-Vale 4");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>4)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==4){
+								resp = 9;
+							}
+						}
+					}else if(prim && seg){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Vale 4");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==3){
+								resp = 9;
+							}
+						}
+					}else if(seg && terc){
+						System.out.print("\n1-Jugar 2da Carta \n2-Jugar 3ra Carta \n3-Vale 4");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							switch(resp){
+								case 1:
+									resp = 2;
+									break;
+								case 2:
+									resp = 3;
+									break;
+								case 3:
+									resp = 9;
+									break;
+							}
+						}
+					}else if(prim && terc){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 3ra Carta \n3-Vale 4");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((resp<1)||(resp>3)){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==2){
+								resp = 3;
+							}else if(resp == 3){
+								resp = 9;
+							}
+						}
+					}else if(prim){
+						System.out.print("\n1-Jugar 1ra Carta \n2-Vale 4");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))==(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp == 2){
+								resp = 9;
+							}
+						}
+					}else if(seg){
+						System.out.print("\n1-Jugar 2da Carta \n2-Vale 4");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))||(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp == 1){
+								resp = 2;
+							}else{
+								resp = 9;
+							}
+						}
+					}else if(terc){
+						System.out.print("\n1-Jugar 3ra Carta \n2-Vale 4");
+						System.out.print("\nRespuesta: ");
+						resp = sc.nextInt();
+						if((!(resp==1))||(!(resp==2))){
+							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+						}else{
+							error = false;
+							if(resp==1){
+								resp=3;
+							}else{
+								resp = 9;
+							}
+						}
+					}
+				}
+			}catch(Exception e){
+				System.out.println("\nError. El valor ingresado no corresponde a un número");
+				System.exit(1);
+			}
+		}
+		return resp;
+	}
+	
 }

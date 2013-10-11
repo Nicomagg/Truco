@@ -193,8 +193,23 @@ public class Principal {
 						}
 					}
 					
-					//Aca falta hacer el metodo para que la maquina juegue alguna carta
-				}
+					//Verifico si la maquina puede cantar truco o si ya se ha cantado
+					if(!(truco)){
+						if(mentir){
+							truco = true;
+							respuestaTruco = jugadorM.truco(contador, jugadorH);
+							if(respuestaTruco.get(1)){
+								reTruco = true;
+								
+							}else{
+								if(respuestaTruco.get(0)){
+									//verificar aca varias cosas
+								}
+							}
+						}
+					}
+					
+				}//Fin turno de la maquina
 				
 				
 			}else{//fin si el humano es mano

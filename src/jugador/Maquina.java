@@ -501,5 +501,76 @@ public class Maquina extends Jugador{
 		boolean resp = jugadorH.cantoVale4();
 		return resp;
 	}
+	
+	//funcion para que la maquina juegue una carta
+	public int jugarCarta(int posi, Humano jugadorH, boolean ganeMano, boolean perdiMano, boolean prim, boolean seg, boolean ter){
+		if(posi==0){
+			if(prim){
+				this.getCartas()[0].setHabilitada(false);
+				return 0;
+			}else{	
+				if(ganeMano){
+					if(this.getCartas()[0].isHabilitada()){
+						this.getCartas()[0].setHabilitada(false);
+						return 0;
+					}else if(this.getCartas()[1].isHabilitada()){
+						this.getCartas()[1].setHabilitada(false);
+						return 1;
+					}else{
+						this.getCartas()[2].setHabilitada(false);
+						return 2;
+					}
+				}else if(perdiMano){
+					if(this.getCartas()[2].isHabilitada()){
+						this.getCartas()[2].setHabilitada(false);
+						return 2;
+					}else if(this.getCartas()[1].isHabilitada()){
+						this.getCartas()[1].setHabilitada(false);
+						return 1;
+					}else{
+						this.getCartas()[0].setHabilitada(false);
+						return 0;
+					}
+				}else{
+					if(this.getCartas()[0].isHabilitada()){
+						this.getCartas()[0].setHabilitada(false);
+						return 0;
+					}else if(this.getCartas()[1].isHabilitada()){
+						this.getCartas()[1].setHabilitada(false);
+						return 1;
+					}else{
+						this.getCartas()[2].setHabilitada(false);
+						return 2;
+					}
+				}
+			}
+		}else{
+			int comp;
+			if(this.getCartas()[0].isHabilitada()){
+				comp = this.getCartas()[0].compararCartas(jugadorH.getCartas()[posi]);
+				if(comp == 1){
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
+				}else if(comp == 0){
+					if(this.getCartas()[1].isHabilitada()){
+						this.getCartas()[1].setHabilitada(false);
+						return 1;
+					}else if(this.getCartas()[2].isHabilitada()){
+						this.getCartas()[2].setHabilitada(false);
+						return 2;
+					}else{
+						this.getCartas()[0].setHabilitada(false);
+						return 0;
+					}
+				}else{
+					if(this.getCartas()[1].isHabilitada()){
+						comp = this.getCartas()[0].compararCartas(jugadorH.getCartas()[posi]);
+						//sigue aca
+					}
+				}
+			}
+		}
+		return 0;
+	}
 
 }

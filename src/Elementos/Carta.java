@@ -98,7 +98,7 @@ public class Carta{
 	}
 
 	//funcion para comparar el valor de dos cartas
-	public int campararCartas(Carta c) {
+	public int compararCartas(Carta c) {
 		if(this.getValor() < c.getValor()){
 			return -1;
 		}else if(this.getValor() > c.getValor()){

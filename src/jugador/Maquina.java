@@ -564,10 +564,50 @@ public class Maquina extends Jugador{
 					}
 				}else{
 					if(this.getCartas()[1].isHabilitada()){
-						comp = this.getCartas()[0].compararCartas(jugadorH.getCartas()[posi]);
-						//sigue aca
+						comp = this.getCartas()[1].compararCartas(jugadorH.getCartas()[posi]);
+						if(comp == 1){
+							this.getCartas()[1].setHabilitada(false);
+							return 1;
+						}else{
+							if(this.getCartas()[2].isHabilitada()){
+								comp = this.getCartas()[1].compararCartas(jugadorH.getCartas()[posi]);
+								if(comp == 1){
+									this.getCartas()[2].setHabilitada(false);
+									return 2;
+								}else if(comp == 0){
+									this.getCartas()[2].setHabilitada(false);
+									return 2;
+								}
+							}else{
+								this.getCartas()[1].setHabilitada(false);
+								return 1;
+							}
+						}
 					}
 				}
+			}else if(this.getCartas()[1].isHabilitada()){
+				comp = this.getCartas()[1].compararCartas(jugadorH.getCartas()[posi]);
+				if(comp == 1){
+					this.getCartas()[1].setHabilitada(false);
+					return 1;
+				}else{
+					if(this.getCartas()[2].isHabilitada()){
+						comp = this.getCartas()[1].compararCartas(jugadorH.getCartas()[posi]);
+						if(comp == 1){
+							this.getCartas()[2].setHabilitada(false);
+							return 2;
+						}else if(comp == 0){
+							this.getCartas()[2].setHabilitada(false);
+							return 2;
+						}
+					}else{
+						this.getCartas()[1].setHabilitada(false);
+						return 1;
+					}
+				}
+			}else if(this.getCartas()[2].isHabilitada()){
+				this.getCartas()[2].setHabilitada(false);
+				return 2;
 			}
 		}
 		return 0;

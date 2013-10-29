@@ -185,16 +185,24 @@ public class Maquina extends Jugador{
 			int puntosHumano = jugadorH.obtenerPutnos();
 			System.out.println("\n"+this.getNombre()+": "+puntosMaquina+" puntos.");
 			System.out.println(jugadorH.getNombre()+": "+puntosHumano+" puntos.");
-			if(puntosMaquina<puntosHumano){
-				contador.sumarFaltaEnvido(jugadorH);
-			}else if(puntosMaquina>puntosHumano){
-				contador.sumarFaltaEnvido(this);
-			}else{
-				if(this.isMano()){
+			//Verifico si el humano no canto mal los puntos
+			if(!(puntosHumano==-1)){
+				if(puntosMaquina<puntosHumano){
+					contador.sumarFaltaEnvido(jugadorH);
+				}else if(puntosMaquina>puntosHumano){
 					contador.sumarFaltaEnvido(this);
 				}else{
-					contador.sumarFaltaEnvido(jugadorH);
+					if(this.isMano()){
+						contador.sumarFaltaEnvido(this);
+					}else{
+						contador.sumarFaltaEnvido(jugadorH);
+					}
 				}
+			}else{
+				System.out.println("Error "+jugadorH.getNombre()+". Puntos mal cantados, rabón perdido.");
+				contador.sumarPuntos(this, 2);
+				contador.sumarFaltaEnvido(this);
+				this.setManoGanada(2);
 			}
 		}else{
 			System.out.println(jugadorH.getNombre()+": No Quiero");
@@ -245,16 +253,24 @@ public class Maquina extends Jugador{
 				int puntosHumano = jugadorH.obtenerPutnos();
 				System.out.println("\n"+this.getNombre()+": "+puntosMaquina+" puntos");
 				System.out.println(jugadorH.getNombre()+": "+puntosHumano+" puntos");
-				if(puntosMaquina<puntosHumano){
-					contador.sumarPuntos(jugadorH, contador.realEnvioQuerido(envido, envidoEnvido));
-				}else if(puntosMaquina>puntosHumano){
-					contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
-				}else{
-					if(this.isMano()){
+				//Verifico que el humano no cante mal los puntos
+				if(!(puntosHumano==-1)){
+					if(puntosMaquina<puntosHumano){
+						contador.sumarPuntos(jugadorH, contador.realEnvioQuerido(envido, envidoEnvido));
+					}else if(puntosMaquina>puntosHumano){
 						contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
 					}else{
-						contador.sumarPuntos(jugadorH, contador.realEnvioQuerido(envido, envidoEnvido));
+						if(this.isMano()){
+							contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
+						}else{
+							contador.sumarPuntos(jugadorH, contador.realEnvioQuerido(envido, envidoEnvido));
+						}
 					}
+				}else{
+					System.out.println("Error "+jugadorH.getNombre()+". Puntos mal cantados, rabón perdido.");
+					contador.sumarPuntos(this, 2);
+					contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
+					this.setManoGanada(2);
 				}
 			}else{
 				System.out.println(jugadorH.getNombre()+": No Quiero");
@@ -332,16 +348,24 @@ public class Maquina extends Jugador{
 					int puntosHumano = jugadorH.obtenerPutnos();
 					System.out.println("\n"+this.getNombre()+": "+puntosMaquina+"puntos");
 					System.out.println(jugadorH.getNombre()+": "+puntosHumano+"puntos");
-					if(puntosMaquina<puntosHumano){
-						contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
-					}else if(puntosMaquina>puntosHumano){
-						contador.sumarPuntos(this, contador.envidoQuerido(envido));
-					}else{
-						if(this.isMano()){
+					//Verifico si no canto mal los puntos el humano
+					if(!(puntosHumano==-1)){
+						if(puntosMaquina<puntosHumano){
+							contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+						}else if(puntosMaquina>puntosHumano){
 							contador.sumarPuntos(this, contador.envidoQuerido(envido));
 						}else{
-							contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+							if(this.isMano()){
+								contador.sumarPuntos(this, contador.envidoQuerido(envido));
+							}else{
+								contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+							}
 						}
+					}else{
+						System.out.println("Error "+jugadorH.getNombre()+". Puntos mal cantados, rabón perdido.");
+						contador.sumarPuntos(this, 2);
+						contador.sumarPuntos(this, contador.envidoQuerido(envido));
+						this.setManoGanada(2);
 					}
 				}else{
 					System.out.println(jugadorH.getNombre()+": No Quiero");
@@ -358,16 +382,24 @@ public class Maquina extends Jugador{
 					int puntosHumano = jugadorH.obtenerPutnos();
 					System.out.println("\n"+this.getNombre()+": "+puntosMaquina+"puntos");
 					System.out.println(jugadorH.getNombre()+": "+puntosHumano+"puntos");
-					if(puntosMaquina<puntosHumano){
-						contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
-					}else if(puntosMaquina>puntosHumano){
-						contador.sumarPuntos(this, contador.envidoQuerido(envido));
-					}else{
-						if(this.isMano()){
+					//verifico que el humano no cante mal los puntos
+					if(puntosHumano==-1){
+						if(puntosMaquina<puntosHumano){
+							contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+						}else if(puntosMaquina>puntosHumano){
 							contador.sumarPuntos(this, contador.envidoQuerido(envido));
 						}else{
-							contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+							if(this.isMano()){
+								contador.sumarPuntos(this, contador.envidoQuerido(envido));
+							}else{
+								contador.sumarPuntos(jugadorH, contador.envidoQuerido(envido));
+							}
 						}
+					}else{
+						System.out.println("Error "+jugadorH.getNombre()+". Puntos mal cantados, rabón perdido.");
+						contador.sumarPuntos(this, 2);
+						contador.sumarPuntos(this, contador.envidoQuerido(envido));
+						this.setManoGanada(2);
 					}
 				}else{
 					System.out.println(jugadorH.getNombre()+": No Quiero");

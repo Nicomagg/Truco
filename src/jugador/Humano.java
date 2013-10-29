@@ -8,8 +8,6 @@ import Elementos.Contador;
 
 public class Humano extends Jugador{
 
-	private Scanner sc;
-
 	public Humano(String nom) {
 		super(nom);
 		this.setMano(true);
@@ -34,10 +32,52 @@ public class Humano extends Jugador{
 	}
 	
 	public int obtenerPutnos(){
-		sc = new Scanner(System.in);
 		boolean error = true;
 		int num = 0;
+		int realNum = 0;
+		//Verifico los puntos del humano
+		if((this.getCartas()[0].getPalo() == this.getCartas()[1].getPalo())){
+			if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()<10)){
+				realNum = (20 + this.getCartas()[0].getNumero() + this.getCartas()[1].getNumero());
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()<10)){ 
+				realNum = (20 + this.getCartas()[1].getNumero());
+			}else if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()>=10)){
+				realNum = (20 + this.getCartas()[0].getNumero());
+			}else{
+				realNum = 20;
+			}
+		}else if((this.getCartas()[0].getPalo() == this.getCartas()[2].getPalo())){
+			if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[2].getNumero()<10)){
+				realNum = (20 + this.getCartas()[0].getNumero() + this.getCartas()[2].getNumero());
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[2].getNumero()<10)){ 
+				realNum = (20 + this.getCartas()[2].getNumero());
+			}else if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[2].getNumero()>=10)){
+				realNum = (20 + this.getCartas()[0].getNumero());
+			}else{
+				realNum = 20;
+			}
+		}else if((this.getCartas()[1].getPalo() == this.getCartas()[2].getPalo())){
+			if((this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()<10)){
+				realNum = (20 + this.getCartas()[1].getNumero() + this.getCartas()[2].getNumero());
+			}else if((this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()<10)){ 
+				realNum = (20 + this.getCartas()[2].getNumero());
+			}else if((this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()>=10)){
+				realNum = (20 + this.getCartas()[1].getNumero());
+			}else{
+				realNum = 20;
+			}
+		}else{
+			int max = 0;
+			for(int i = 0; i < 3; i++){
+				if((this.getCartas()[i].getNumero()>max) && (this.getCartas()[i].getNumero()<10)){
+					max = this.getCartas()[i].getNumero();
+				}
+			}
+			realNum = max;
+		}
+		
 		while(error){
+			Scanner sc = new Scanner(System.in);
 			try{
 				System.out.print("Ingrese sus puntos: ");
 				num = sc.nextInt();
@@ -50,6 +90,10 @@ public class Humano extends Jugador{
 				System.out.println("Error. El valor ingresado no es un número");
 				System.exit(1);
 			}
+		}
+		//Verifico si lo ingresado por el usuario es realmente el numero
+		if(!(realNum==num)){
+			return -1;
 		}
 		return num;
 	}
@@ -64,16 +108,24 @@ public class Humano extends Jugador{
 			int puntosMaquina = jugadorM.puntosMano();
 			System.out.println("\n"+this.getNombre()+": "+puntosHumano+" puntos");
 			System.out.println(jugadorM.getNombre()+": "+puntosMaquina+" puntos");
-			if(puntosHumano < puntosMaquina){
-				contador.sumarFaltaEnvido(jugadorM);
-			}else if(puntosHumano > puntosMaquina){
-				contador.sumarFaltaEnvido(this);
-			}else{
-				if(this.isMano()){
+			//verifico si el humano no canto mal los puntos
+			if(!(puntosHumano==-1)){
+				if(puntosHumano < puntosMaquina){
+					contador.sumarFaltaEnvido(jugadorM);
+				}else if(puntosHumano > puntosMaquina){
 					contador.sumarFaltaEnvido(this);
 				}else{
-					contador.sumarFaltaEnvido(jugadorM);
+					if(this.isMano()){
+						contador.sumarFaltaEnvido(this);
+					}else{
+						contador.sumarFaltaEnvido(jugadorM);
+					}
 				}
+			}else{
+				System.out.println("Error "+this.getNombre()+". Puntos mal cantados, rabón perdido.");
+				contador.sumarPuntos(jugadorM, 2);
+				contador.sumarFaltaEnvido(jugadorM);
+				jugadorM.setManoGanada(2);
 			}
 		}else{
 			System.out.println(jugadorM.getNombre()+": No Quiero");
@@ -86,6 +138,7 @@ public class Humano extends Jugador{
 		boolean error = true;
 		int respuesta = 0;
 		while(error){
+			Scanner sc = new Scanner(System.in);
 			System.out.print("\n1-Quiero  --  2-No Quiero \nRespuesta:");
 			try{
 				respuesta = sc.nextInt();
@@ -120,16 +173,24 @@ public class Humano extends Jugador{
 				int puntosMaquina = jugadorM.puntosMano();
 				System.out.println("\n"+this.getNombre()+": "+puntosHumano+" puntos");
 				System.out.println(jugadorM.getNombre()+": "+puntosMaquina+" puntos");
-				if(puntosHumano<puntosMaquina){
-					contador.sumarPuntos(jugadorM, contador.realEnvioQuerido(envido, envidoEnvido));
-				}else if(puntosHumano>puntosMaquina){
-					contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
-				}else{
-					if(this.isMano()){
+				//Verifico si no canto mal los puntos
+				if(!(puntosHumano==-1)){
+					if(puntosHumano<puntosMaquina){
+						contador.sumarPuntos(jugadorM, contador.realEnvioQuerido(envido, envidoEnvido));
+					}else if(puntosHumano>puntosMaquina){
 						contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
 					}else{
-						contador.sumarPuntos(jugadorM, contador.realEnvioQuerido(envido, envidoEnvido));
+						if(this.isMano()){
+							contador.sumarPuntos(this, contador.realEnvioQuerido(envido, envidoEnvido));
+						}else{
+							contador.sumarPuntos(jugadorM, contador.realEnvioQuerido(envido, envidoEnvido));
+						}
 					}
+				}else{
+					System.out.println("Error "+this.getNombre()+". Puntos mal cantados, rabón perdido.");
+					contador.sumarPuntos(jugadorM, 2);
+					contador.sumarPuntos(jugadorM, contador.realEnvioQuerido(envido, envidoEnvido));
+					jugadorM.setManoGanada(2);
 				}
 			}else{
 				System.out.println(jugadorM.getNombre()+": No Quiero");
@@ -146,6 +207,7 @@ public class Humano extends Jugador{
 		boolean faltaEnvido = false;
 		boolean error = true;
 		while(error){
+			Scanner sc = new Scanner(System.in);
 			try{
 				System.out.print("\n1-Quiero  --  2-No Quiero  --  3-Falta Envido \nRespuesta:");
 				resp = sc.nextInt();
@@ -192,16 +254,24 @@ public class Humano extends Jugador{
 					int puntosMaquina = jugadorM.puntosMano();
 					System.out.println("\n"+this.getNombre()+": "+puntosHumano+" puntos");
 					System.out.println(jugadorM.getNombre()+": "+puntosMaquina+" puntos");
-					if(puntosHumano < puntosMaquina){
-						contador.sumarPuntos(jugadorM, contador.envidoQuerido(false));
-					}else if(puntosHumano > puntosMaquina){
-						contador.sumarPuntos(this, contador.envidoQuerido(false));
-					}else{
-						if(this.isMano()){
+					//Verifico si el humano no canto mas los puntos
+					if(!(puntosHumano==-1)){
+						if(puntosHumano < puntosMaquina){
+							contador.sumarPuntos(jugadorM, contador.envidoQuerido(false));
+						}else if(puntosHumano > puntosMaquina){
 							contador.sumarPuntos(this, contador.envidoQuerido(false));
 						}else{
-							contador.sumarPuntos(jugadorM, contador.envidoQuerido(false));
+							if(this.isMano()){
+								contador.sumarPuntos(this, contador.envidoQuerido(false));
+							}else{
+								contador.sumarPuntos(jugadorM, contador.envidoQuerido(false));
+							}
 						}
+					}else{
+						System.out.println("Error "+this.getNombre()+". Puntos mal cantados, rabón perdido.");
+						contador.sumarPuntos(jugadorM, 2);
+						contador.sumarPuntos(jugadorM, contador.envidoQuerido(false));
+						jugadorM.setManoGanada(2);
 					}
 				}else{
 					System.out.println("\n"+jugadorM.getNombre()+": No Quiero");
@@ -220,16 +290,24 @@ public class Humano extends Jugador{
 					int puntosMaquina = jugadorM.puntosMano();
 					System.out.println("\n"+this.getNombre()+": "+puntosHumano+" puntos");
 					System.out.println(jugadorM.getNombre()+": "+puntosMaquina+" puntos");
-					if(puntosHumano < puntosMaquina){
-						contador.sumarPuntos(jugadorM, contador.envidoQuerido(true));
-					}else if(puntosHumano > puntosMaquina){
-						contador.sumarPuntos(this, contador.envidoQuerido(true));
-					}else{
-						if(this.isMano()){
+					//Verifico si el humano no canto mal los puntos
+					if(!(puntosHumano==-1)){
+						if(puntosHumano < puntosMaquina){
+							contador.sumarPuntos(jugadorM, contador.envidoQuerido(true));
+						}else if(puntosHumano > puntosMaquina){
 							contador.sumarPuntos(this, contador.envidoQuerido(true));
 						}else{
-							contador.sumarPuntos(jugadorM, contador.envidoQuerido(true));
+							if(this.isMano()){
+								contador.sumarPuntos(this, contador.envidoQuerido(true));
+							}else{
+								contador.sumarPuntos(jugadorM, contador.envidoQuerido(true));
+							}
 						}
+					}else{
+						System.out.println("Error "+this.getNombre()+". Puntos mal cantados, rabón perdido.");
+						contador.sumarPuntos(jugadorM, 2);
+						contador.sumarPuntos(jugadorM, contador.envidoQuerido(true));
+						jugadorM.setManoGanada(2);
 					}
 				}else{
 					System.out.println(jugadorM.getNombre()+": No Quiero");
@@ -249,6 +327,7 @@ public class Humano extends Jugador{
 		boolean error = true;
 		if(!(envido)){
 			while(error){
+				Scanner sc = new Scanner(System.in);
 				try{
 					System.out.print("1-Quiero  --  2-No Quiero  --  3-Envido  --  4-Real Envido  --  5-Falta Envido \nRespuesta:");
 					respuestaHumano = sc.nextInt();
@@ -284,6 +363,7 @@ public class Humano extends Jugador{
 			}
 		}else{
 			while(error){
+				Scanner sc = new Scanner(System.in);
 				try{
 					System.out.print("1-Quiero  --  2-No Quiero  --  3-Real Envido  --  4-Falta Envido \nRespuesta:");
 					respuestaHumano = sc.nextInt();
@@ -355,6 +435,7 @@ public class Humano extends Jugador{
 		boolean error = true;
 		
 		while(error){
+			Scanner sc = new Scanner(System.in);
 			try{
 				System.out.print("\n1-Quiero  --  2-No Quiero  --  3-QUIERO RETRUCO!!! \nRespuesta:");
 				resp = sc.nextInt();
@@ -414,6 +495,7 @@ public class Humano extends Jugador{
 		boolean error = true;
 		
 		while(error){
+			Scanner sc = new Scanner(System.in);
 			try{
 				System.out.print("\n1-Quiero  --  2-No Quiero  --  3-QUIERO VALE 4!!! \nRespuesta:");
 				respNum = sc.nextInt();
@@ -462,6 +544,7 @@ public class Humano extends Jugador{
 		boolean error = true;
 		int resp = 0;
 		while(error){
+			Scanner sc = new Scanner(System.in);
 			try{
 				System.out.print("\n1-Quiero  --  2-No Quiero \nRespuesta:");
 				resp = sc.nextInt();
@@ -489,6 +572,7 @@ public class Humano extends Jugador{
 		int resp = 0;
 		//Verifico que no se ingrese cualquier cosa
 		while(error){
+			Scanner sc = new Scanner(System.in);
 			try{
 				if((!(truco))&&(!(reTruco))&&(!(vale4))){
 					if(prim && seg && terc){
@@ -868,7 +952,6 @@ public class Humano extends Jugador{
 				}
 			}catch(Exception e){
 				System.out.println("\nError. El valor ingresado no corresponde a un número");
-				System.exit(1);
 			}
 		}
 		return resp;

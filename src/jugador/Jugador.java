@@ -56,7 +56,11 @@ public abstract class Jugador {
 	}
 
 	public void setManoGanada(int manoGanada) {
-		this.manoGanada = this.getManoGanada() + manoGanada;
+		if(manoGanada==0){
+			this.manoGanada = 0;
+		}else{
+			this.manoGanada = this.getManoGanada() + manoGanada;
+		}
 	}
 	
 	//funcion para ver si gano la mano

@@ -50,6 +50,7 @@ public class Principal {
 			
 			//muestro cartas del jugador
 			System.out.println("Cartas de "+jugadorH.getNombre()+": "+jugadorH);
+			System.out.println("Cartas de "+jugadorM.getNombre()+": "+jugadorM);//Esto se borra al final. Solo esta para poder ver las cartas de la maquina
 			
 			//funcion para ver el grado de entira de la maquina;
 			puntosFaltaHumanoGanar = 30 - contador.getPuntosJug(); 
@@ -69,9 +70,10 @@ public class Principal {
 				error = true;
 				//Verifico que no se ingrese cualquier cosa
 				while(error){
+					Scanner sc1 = new Scanner(System.in);
 					try{
 						System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Jugar 3ra Carta \n4-Envido  --  5-Real Envido  --  6-Falta Envido  --  7-Truco \nRespuesta: ");
-						resp = sc.nextInt();
+						resp = sc1.nextInt();
 						if((resp<1)||(resp>7)){
 							System.out.println("\nError. El valor ingresado no corresponde a un número válido");
 						}else{
@@ -79,108 +81,115 @@ public class Principal {
 						}
 					}catch(Exception e){
 						System.out.println("\nError. El valor ingresado no corresponde a un número");
-						System.exit(1);
 					}
 				}
 				
+				//Verifico si no se canto envido
 				if(resp == 4){
 					jugadorH.envido(false, contador, jugadorM, mentir);
 					envido = true;
-					resp = jugadorH.pedirCarta(true,true,true,true,false,false);
 				}else if(resp == 5){
 					jugadorH.realEnvido(false, false, jugadorM, mentir, contador);
 					envido = true;
-					resp = jugadorH.pedirCarta(true,true,true,true,false,false);
 				}else if(resp == 6){
 					jugadorH.faltaEnvido(false, false, false, jugadorM, contador, mentir);
 					envido = true;
-					jugadorH.pedirCarta(true,true,true,true,false,false);
 				}
 				
-				if(resp == 7){
-					truco = true;
-					//Verifico que la maquina no tenga puntos
-					if(mentir){
-						System.out.println("\n"+jugadorH.getNombre()+": Truco");
-						System.out.print("\n"+jugadorM.getNombre()+": Primero esta el ");
-						jugadorM.envido(false, contador, mentir, jugadorH);
-						envido = true;
-					}else{
-						if(jugadorM.puntosMano()>26){
+				//Verifico si ya no se termino antes la partida
+				if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+					if((resp == 4)||(resp == 5)||(resp == 6)){
+						resp = jugadorH.pedirCarta(true,true,true,true,false,false);
+					}
+					if(resp == 7){
+						truco = true;
+						//Verifico que la maquina no tenga puntos
+						if(mentir){
 							System.out.println("\n"+jugadorH.getNombre()+": Truco");
 							System.out.print("\n"+jugadorM.getNombre()+": Primero esta el ");
 							jugadorM.envido(false, contador, mentir, jugadorH);
 							envido = true;
+						}else{
+							if(jugadorM.puntosMano()>26){
+								System.out.println("\n"+jugadorH.getNombre()+": Truco");
+								System.out.print("\n"+jugadorM.getNombre()+": Primero esta el ");
+								jugadorM.envido(false, contador, mentir, jugadorH);
+								envido = true;
+							}
 						}
-					}
-					//Canta truco el humano
-					respuestaTruco = jugadorH.truco(contador, jugadorM);
-					//Verifico si la maquina no canto re truco
-					if(respuestaTruco.get(1)){
-						reTruco = true;
-						respuestaReTruco = jugadorM.reTruco(contador, jugadorH, mentir);
-						//verifico si el humano no canto vale 4
-						if(respuestaReTruco.get(1)){
-							vale4 = true;
-							respuestaVale4 = jugadorH.vale4(contador, jugadorM, mentir);
-							if(respuestaVale4){
+						//Canta truco el humano
+						respuestaTruco = jugadorH.truco(contador, jugadorM);
+						//Verifico si la maquina no canto re truco
+						if(respuestaTruco.get(1)){
+							reTruco = true;
+							respuestaReTruco = jugadorM.reTruco(contador, jugadorH, mentir);
+							//verifico si el humano no canto vale 4
+							if(respuestaReTruco.get(1)){
+								vale4 = true;
+								respuestaVale4 = jugadorH.vale4(contador, jugadorM, mentir);
+								if(respuestaVale4){
+									resp = jugadorH.pedirCarta(true,true,true,false,false,false);
+								}else{
+									contador.sumarPuntos(jugadorH, 3);
+									jugadorH.setManoGanada(2);
+								}
+							}else{
+								if(respuestaReTruco.get(0)){
+									resp = jugadorH.pedirCarta(true,true,true,false,false,true);
+								}else{
+									contador.sumarPuntos(jugadorM, 2);
+									jugadorH.setManoGanada(2);
+								}
+							}
+						}else{
+							if(respuestaTruco.get(0)){
 								resp = jugadorH.pedirCarta(true,true,true,false,false,false);
 							}else{
-								contador.sumarPuntos(jugadorH, 3);
-								jugadorH.setManoGanada(2);
-							}
-						}else{
-							if(respuestaReTruco.get(0)){
-								resp = jugadorH.pedirCarta(true,true,true,false,false,true);
-							}else{
-								contador.sumarPuntos(jugadorM, 2);
+								contador.sumarPuntos(jugadorH, 1);
 								jugadorH.setManoGanada(2);
 							}
 						}
-					}else{
-						if(respuestaTruco.get(0)){
+					}
+					
+					//Verifico si el humano no canto vale 4
+					if(resp == 9){
+						vale4 = true;
+						respuestaVale4 = jugadorH.vale4(contador, jugadorM, mentir);
+						if(respuestaVale4){
 							resp = jugadorH.pedirCarta(true,true,true,false,false,false);
 						}else{
-							contador.sumarPuntos(jugadorH, 1);
+							contador.sumarPuntos(jugadorH, 3);
 							jugadorH.setManoGanada(2);
 						}
 					}
-				}
-				
-				//Verifico si el humano no canto vale 4
-				if(resp == 9){
-					vale4 = true;
-					respuestaVale4 = jugadorH.vale4(contador, jugadorM, mentir);
-					if(respuestaVale4){
-						resp = jugadorH.pedirCarta(true,true,true,false,false,false);
-					}else{
-						contador.sumarPuntos(jugadorH, 3);
-						jugadorH.setManoGanada(2);
+					
+					//Verifico si se debe jugar o no
+					if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+						//Verifico que carta juega el humano
+						switch(resp){
+							case 1:
+								System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[0]);
+								jugadorH.getCartas()[0].setHabilitada(false);
+								cartasJugadasHumano.add(jugadorH.getCartas()[0]);
+								break;
+							case 2:
+								System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[1]);
+								jugadorH.getCartas()[1].setHabilitada(false);
+								cartasJugadasHumano.add(jugadorH.getCartas()[1]);
+								break;
+							case 3:
+								System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[2]);
+								jugadorH.getCartas()[2].setHabilitada(false);
+								cartasJugadasHumano.add(jugadorH.getCartas()[2]);
+								break;
+						}
 					}
-				}
-				
-				//Verifico que carta juega el humano
-				switch(resp){
-					case 1:
-						System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[0]);
-						jugadorH.getCartas()[0].setHabilitada(false);
-						cartasJugadasHumano.add(jugadorH.getCartas()[0]);
-						break;
-					case 2:
-						System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[1]);
-						jugadorH.getCartas()[1].setHabilitada(false);
-						cartasJugadasHumano.add(jugadorH.getCartas()[1]);
-						break;
-					case 3:
-						System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[2]);
-						jugadorH.getCartas()[2].setHabilitada(false);
-						cartasJugadasHumano.add(jugadorH.getCartas()[2]);
-						break;
 				}
 				//fin turno humano
 				
 				//comienzo turno maquina
-				if((!jugadorH.ganoMano())&&(!jugadorM.ganoMano())){
+				if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+					//Verifico si no se canto envido
 					if(!(envido)){
 						if(mentir){
 							jugadorM.envido(false, contador, mentir, jugadorH);
@@ -193,21 +202,56 @@ public class Principal {
 						}
 					}
 					
-					//Verifico si la maquina puede cantar truco o si ya se ha cantado
-					if(!(truco)){
-						if(mentir){
-							truco = true;
-							respuestaTruco = jugadorM.truco(contador, jugadorH);
-							if(respuestaTruco.get(1)){
-								reTruco = true;
-								
+					if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+						//Verifico si la maquina puede cantar truco o si ya se ha cantado
+						if(!(truco)){
+							if(mentir){
+								truco = true;
+								respuestaTruco = jugadorM.truco(contador, jugadorH);
+								if(respuestaTruco.get(1)){
+									reTruco = true;
+									respuestaReTruco = jugadorH.reTruco(contador, jugadorM, mentir);
+									//Verifico respuesta del retruco
+									if(respuestaReTruco.get(1)){
+										vale4 = true;
+										respuestaVale4 = jugadorM.vale4(jugadorH);
+										if(!(respuestaVale4)){
+											jugadorH.setManoGanada(2);
+										}
+									}else if(!(respuestaReTruco.get(0))){
+										jugadorM.setManoGanada(2);
+									}
+								}else{
+									if(!(respuestaTruco.get(0))){
+										jugadorH.setManoGanada(2);
+									}
+								}
 							}else{
-								if(respuestaTruco.get(0)){
-									//verificar aca varias cosas
+								if(jugadorM.cantarTruco()){
+									truco = true;
+									respuestaTruco = jugadorM.truco(contador, jugadorH);
+									if(respuestaTruco.get(1)){
+										reTruco = true;
+										respuestaReTruco = jugadorH.reTruco(contador, jugadorM, mentir);
+										//Verifico respuesta del retruco
+										if(respuestaReTruco.get(1)){
+											vale4 = true;
+											respuestaVale4 = jugadorM.vale4(jugadorH);
+											if(!(respuestaVale4)){
+												jugadorH.setManoGanada(2);
+											}
+										}else if(!(respuestaReTruco.get(0))){
+											jugadorM.setManoGanada(2);
+										}
+									}else{
+										if(!(respuestaTruco.get(0))){
+											jugadorH.setManoGanada(2);
+										}
+									}
 								}
 							}
-						}
-					}
+						}//Fin si no se canto truco
+					}//Fin verificacion si no gano antes alguien la mano
 					
 				}//Fin turno de la maquina
 				
@@ -219,7 +263,13 @@ public class Principal {
 			
 			//Puntos de cada jugador
 			System.out.println("\n"+jugadorH.getNombre()+": "+contador.getPuntosJug()+" puntos "
-							 + "\n"+jugadorM.getNombre()+": "+contador.getPuntosMaq()+" puntos");
+							 + "\n"+jugadorM.getNombre()+": "+contador.getPuntosMaq()+" puntos"
+							 + "\n \n \n"
+							 + "------------------------------------------------------------------------------"
+							 + "\n \n \n");
+			//Inicializo las manos
+			jugadorH.setManoGanada(0);
+			jugadorM.setManoGanada(0);
 		}
 	}//fin main
 }//fin class

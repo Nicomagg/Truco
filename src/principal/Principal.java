@@ -36,6 +36,7 @@ public class Principal {
 		int resp = 0;
 		int puntosFaltaHumanoGanar;
 		int diferenciaPuntos;
+		int resultadoVuelta = 0; //Variable para saber si las cartas de la maquina son mayore, menore o iguales
 		
 		while(!(contador.hayGanador())){
 			//Reparto de cartas para cada jugador
@@ -103,18 +104,20 @@ public class Principal {
 					}
 					if(resp == 7){
 						truco = true;
-						//Verifico que la maquina no tenga puntos
-						if(mentir){
-							System.out.println("\n"+jugadorH.getNombre()+": Truco");
-							System.out.print("\n"+jugadorM.getNombre()+": Primero esta el ");
-							jugadorM.envido(false, contador, mentir, jugadorH);
-							envido = true;
-						}else{
-							if(jugadorM.puntosMano()>26){
+						if(!(envido)){	
+							//Verifico que la maquina no tenga puntos
+							if(mentir){
 								System.out.println("\n"+jugadorH.getNombre()+": Truco");
 								System.out.print("\n"+jugadorM.getNombre()+": Primero esta el ");
 								jugadorM.envido(false, contador, mentir, jugadorH);
 								envido = true;
+							}else{
+								if(jugadorM.puntosMano()>26){
+									System.out.println("\n"+jugadorH.getNombre()+": Truco");
+									System.out.print("\n"+jugadorM.getNombre()+": Primero esta el ");
+									jugadorM.envido(false, contador, mentir, jugadorH);
+									envido = true;
+								}
 							}
 						}
 						//Canta truco el humano
@@ -252,9 +255,29 @@ public class Principal {
 							}
 						}//Fin si no se canto truco
 						
-						//Aca va la funcion para que el 
+						int posiCarta = jugadorM.jugarCarta(cartasJugadasHumano.get(0), false);
+						cartasJugadasMaquina.add(jugadorM.getCartas()[posiCarta]);
+						System.out.println(jugadorM.getNombre()+": "+jugadorM.getCartas()[posiCarta]);
+						
+						if(cartasJugadasHumano.get(0).getValor() < cartasJugadasMaquina.get(0).getValor()){
+							resultadoVuelta = -1;
+							jugadorM.setManoGanada(1);
+						}else if(cartasJugadasHumano.get(0).getValor() < cartasJugadasMaquina.get(0).getValor()){
+							resultadoVuelta = 1;
+							jugadorH.setManoGanada(1);
+						}else{
+							resultadoVuelta = 0;
+						}
 						
 					}//Fin verificacion si no gano antes alguien la mano
+					
+					//Bucle para la segnda parte de la mano
+					while((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+						//Verifico si no hubo empate en las cartas
+						if(resultadoVuelta==0){
+							
+						}
+					}
 					
 				}//Fin turno de la maquina
 				

@@ -535,114 +535,110 @@ public class Maquina extends Jugador{
 	}
 	
 	//funcion para que la maquina juegue una carta
-	public int jugarCarta(int posi, Humano jugadorH, boolean ganeMano, boolean perdiMano, boolean prim, boolean seg, boolean ter){
-		if(posi==0){
-			if(prim){
+	public int jugarCarta(Carta carta, boolean ganado){
+		//verifico si gane una mano
+		if(ganado){
+			if(this.getCartas()[0].isHabilitada()){
 				this.getCartas()[0].setHabilitada(false);
 				return 0;
-			}else{	
-				if(ganeMano){
-					if(this.getCartas()[0].isHabilitada()){
-						this.getCartas()[0].setHabilitada(false);
-						return 0;
-					}else if(this.getCartas()[1].isHabilitada()){
-						this.getCartas()[1].setHabilitada(false);
-						return 1;
-					}else{
-						this.getCartas()[2].setHabilitada(false);
-						return 2;
-					}
-				}else if(perdiMano){
-					if(this.getCartas()[2].isHabilitada()){
-						this.getCartas()[2].setHabilitada(false);
-						return 2;
-					}else if(this.getCartas()[1].isHabilitada()){
-						this.getCartas()[1].setHabilitada(false);
-						return 1;
-					}else{
-						this.getCartas()[0].setHabilitada(false);
-						return 0;
-					}
-				}else{
-					if(this.getCartas()[0].isHabilitada()){
-						this.getCartas()[0].setHabilitada(false);
-						return 0;
-					}else if(this.getCartas()[1].isHabilitada()){
-						this.getCartas()[1].setHabilitada(false);
-						return 1;
-					}else{
-						this.getCartas()[2].setHabilitada(false);
-						return 2;
-					}
-				}
+			}else if(this.getCartas()[1].isHabilitada()){
+				this.getCartas()[1].setHabilitada(false);
+				return 1;
+			}else{
+				this.getCartas()[2].setHabilitada(false);
+				return 2;
 			}
 		}else{
-			int comp;
-			if(this.getCartas()[0].isHabilitada()){
-				comp = this.getCartas()[0].compararCartas(jugadorH.getCartas()[posi]);
-				if(comp == 1){
+			//Verifico si tengo las tres cartas habilitadas para jugar
+			if((this.getCartas()[0].isHabilitada())&&(this.getCartas()[1].isHabilitada())&&(this.getCartas()[2].isHabilitada())){
+				if(carta.getValor() < this.getCartas()[0].getValor()){
 					this.getCartas()[0].setHabilitada(false);
 					return 0;
-				}else if(comp == 0){
-					if(this.getCartas()[1].isHabilitada()){
-						this.getCartas()[1].setHabilitada(false);
-						return 1;
-					}else if(this.getCartas()[2].isHabilitada()){
-						this.getCartas()[2].setHabilitada(false);
-						return 2;
-					}else{
-						this.getCartas()[0].setHabilitada(false);
-						return 0;
-					}
+				}else if(carta.getValor() < this.getCartas()[1].getValor()){
+					this.getCartas()[1].setHabilitada(false);
+					return 1;
+				}else if(carta.getValor() < this.getCartas()[2].getValor()){
+					this.getCartas()[2].setHabilitada(false);
+					return 2;
+				}else if(carta.getValor() == this.getCartas()[0].getValor()){
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
+				}else if(carta.getValor() == this.getCartas()[1].getValor()){
+					this.getCartas()[1].setHabilitada(false);
+					return 1;
+				}else if(carta.getValor() == this.getCartas()[2].getValor()){
+					this.getCartas()[2].setHabilitada(false);
+					return 2;
 				}else{
-					if(this.getCartas()[1].isHabilitada()){
-						comp = this.getCartas()[1].compararCartas(jugadorH.getCartas()[posi]);
-						if(comp == 1){
-							this.getCartas()[1].setHabilitada(false);
-							return 1;
-						}else{
-							if(this.getCartas()[2].isHabilitada()){
-								comp = this.getCartas()[1].compararCartas(jugadorH.getCartas()[posi]);
-								if(comp == 1){
-									this.getCartas()[2].setHabilitada(false);
-									return 2;
-								}else if(comp == 0){
-									this.getCartas()[2].setHabilitada(false);
-									return 2;
-								}
-							}else{
-								this.getCartas()[1].setHabilitada(false);
-								return 1;
-							}
-						}
-					}
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
 				}
-			}else if(this.getCartas()[1].isHabilitada()){
-				comp = this.getCartas()[1].compararCartas(jugadorH.getCartas()[posi]);
-				if(comp == 1){
+			//Si no tengo las 3 cartas veo si tengo la primera y la segunda
+			}else if((this.getCartas()[0].isHabilitada())&&(this.getCartas()[1].isHabilitada())){
+				if(carta.getValor() < this.getCartas()[0].getValor()){
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
+				}else if(carta.getValor() < this.getCartas()[1].getValor()){
+					this.getCartas()[1].setHabilitada(false);
+					return 1;
+				}else if(carta.getValor() == this.getCartas()[0].getValor()){
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
+				}else if(carta.getValor() == this.getCartas()[1].getValor()){
 					this.getCartas()[1].setHabilitada(false);
 					return 1;
 				}else{
-					if(this.getCartas()[2].isHabilitada()){
-						comp = this.getCartas()[1].compararCartas(jugadorH.getCartas()[posi]);
-						if(comp == 1){
-							this.getCartas()[2].setHabilitada(false);
-							return 2;
-						}else if(comp == 0){
-							this.getCartas()[2].setHabilitada(false);
-							return 2;
-						}
-					}else{
-						this.getCartas()[1].setHabilitada(false);
-						return 1;
-					}
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
 				}
-			}else if(this.getCartas()[2].isHabilitada()){
+			//Si no tengo las 3 cartas veo si tengo la primera y la tercera
+			}else if((this.getCartas()[0].isHabilitada())&&(this.getCartas()[2].isHabilitada())){
+				if(carta.getValor() < this.getCartas()[0].getValor()){
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
+				}else if(carta.getValor() < this.getCartas()[2].getValor()){
+					this.getCartas()[2].setHabilitada(false);
+					return 2;
+				}else if(carta.getValor() == this.getCartas()[0].getValor()){
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
+				}else if(carta.getValor() == this.getCartas()[2].getValor()){
+					this.getCartas()[2].setHabilitada(false);
+					return 2;
+				}else{
+					this.getCartas()[0].setHabilitada(false);
+					return 0;
+				}
+			//Si no tengo las 3 cartas veo si tengo la segunda y la tercera
+			}else if((this.getCartas()[1].isHabilitada())&&(this.getCartas()[2].isHabilitada())){
+				if(carta.getValor() < this.getCartas()[1].getValor()){
+					this.getCartas()[1].setHabilitada(false);
+					return 1;
+				}else if(carta.getValor() < this.getCartas()[2].getValor()){
+					this.getCartas()[2].setHabilitada(false);
+					return 2;
+				}else if(carta.getValor() == this.getCartas()[1].getValor()){
+					this.getCartas()[1].setHabilitada(false);
+					return 1;
+				}else if(carta.getValor() == this.getCartas()[2].getValor()){
+					this.getCartas()[2].setHabilitada(false);
+					return 2;
+				}else{
+					this.getCartas()[1].setHabilitada(false);
+					return 1;
+				}
+			//Si solo me queda una carta verifico cual jugar
+			}else if(this.getCartas()[0].isHabilitada()){
+				this.getCartas()[0].setHabilitada(false);
+				return 0;
+			}else if(this.getCartas()[1].isHabilitada()){
+				this.getCartas()[1].setHabilitada(false);
+				return 1;
+			}else{
 				this.getCartas()[2].setHabilitada(false);
 				return 2;
 			}
 		}
-		return 0;
 	}
 
 }

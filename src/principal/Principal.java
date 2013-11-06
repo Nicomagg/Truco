@@ -251,6 +251,9 @@ public class Principal {
 								}
 							}
 						}//Fin si no se canto truco
+						
+						//Aca va la funcion para que el 
+						
 					}//Fin verificacion si no gano antes alguien la mano
 					
 				}//Fin turno de la maquina

@@ -56,8 +56,27 @@ public class Humano extends Jugador{
 					}else{
 						realNum = 20 + this.getCartas()[2].getNumero() + this.getCartas()[1].getNumero();
 					}
+				}	
+			}else if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()>=10)){
+				realNum = 20 + this.getCartas()[0].getNumero() + this.getCartas()[1].getNumero();
+			}else if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()<10)){
+				realNum = 20 + this.getCartas()[0].getNumero() + this.getCartas()[2].getNumero();
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()<10)){
+				realNum = 20 + this.getCartas()[1].getNumero() + this.getCartas()[2].getNumero();
+			}else if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()>=10)){
+				realNum = 20 + this.getCartas()[0].getNumero();
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()>=10)){
+				realNum = 20 + this.getCartas()[1].getNumero();
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()<10)){
+				realNum = 20 + this.getCartas()[2].getNumero();
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()>=10)){
+				int max = 0;
+				for(int i = 0; i <= 3; i++){
+					if((this.getCartas()[i].getNumero()>max) && (this.getCartas()[i].getNumero()<10)){
+						max = this.getCartas()[i].getNumero();
+					}
 				}
-				//Sigue aca. Tengo que ver si hay un 10 entre las cartas y eso
+				realNum = max;
 			}
 		}else if((this.getCartas()[0].getPalo() == this.getCartas()[1].getPalo())){
 			if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()<10)){

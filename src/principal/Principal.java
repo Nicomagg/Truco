@@ -271,21 +271,35 @@ public class Principal {
 						
 					}//Fin verificacion si no gano antes alguien la mano
 					
-					//Bucle para la segnda parte de la mano
-					while((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
-						//Verifico si no hubo empate en las cartas
-						if(resultadoVuelta==0){
-							
-						}
-					}
-					
 				}//Fin turno de la maquina
 				
-				
+				//Se cambia quien es mano
+				jugadorH.setMano(false);
+				jugadorM.setMano(true);
+			
 			}else{//fin si el humano es mano
 			
-			
+				//Turno Maquina
+				System.out.println("\n"+jugadorM.getNombre()+" es mano.");
+				
+				//Verifico si la maquina debe cantar envido
+				if(mentir){
+					jugadorM.envido(false, contador, mentir, jugadorH);
+					envido = true;
+				}else{
+					if(jugadorM.puntosMano()>30){
+						jugadorM.realEnvido(false, false, jugadorH, contador, mentir);
+					}else if(jugadorM.puntosMano()>26){
+						jugadorM.envido(false, contador, mentir, jugadorH);
+					}
+				}
+				
+				//Se cambia quien es mano
+				jugadorH.setMano(false);
+				jugadorM.setMano(true);
 			}//fin si la maquina es mano
+			
+			//Aca falta hacer la funcion para que siga la segunda mano
 			
 			//Puntos de cada jugador
 			System.out.println("\n"+jugadorH.getNombre()+": "+contador.getPuntosJug()+" puntos "

@@ -41,7 +41,49 @@ public class Maquina extends Jugador{
 	
 	//funcion para contar los puntos que tengo
 	public int puntosMano(){
-		if((this.getCartas()[0].getPalo() == this.getCartas()[1].getPalo())){
+		if((this.getCartas()[0].getPalo() == this.getCartas()[1].getPalo())&&(this.getCartas()[0].getPalo() == this.getCartas()[2].getPalo())){
+			if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()<10)){
+				if((this.getCartas()[0].getNumero()>this.getCartas()[1].getNumero())&&(this.getCartas()[0].getNumero()>this.getCartas()[2].getNumero())){
+					if(this.getCartas()[1].getNumero()>this.getCartas()[2].getNumero()){
+						return (20 + this.getCartas()[0].getNumero() + this.getCartas()[1].getNumero());
+					}else{
+						return (20 + this.getCartas()[0].getNumero() + this.getCartas()[2].getNumero());
+					}
+				}else if((this.getCartas()[1].getNumero()>this.getCartas()[0].getNumero())&&(this.getCartas()[1].getNumero()>this.getCartas()[2].getNumero())){
+					if(this.getCartas()[0].getNumero()>this.getCartas()[2].getNumero()){
+						return (20 + this.getCartas()[1].getNumero() + this.getCartas()[0].getNumero());
+					}else{
+						return (20 + this.getCartas()[1].getNumero() + this.getCartas()[2].getNumero());
+					}
+				}else if((this.getCartas()[2].getNumero()>this.getCartas()[0].getNumero())&&(this.getCartas()[2].getNumero()>this.getCartas()[1].getNumero())){
+					if(this.getCartas()[0].getNumero()>this.getCartas()[1].getNumero()){
+						return (20 + this.getCartas()[2].getNumero() + this.getCartas()[0].getNumero());
+					}else{
+						return (20 + this.getCartas()[2].getNumero() + this.getCartas()[1].getNumero());
+					}
+				}	
+			}else if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()>=10)){
+				return (20 + this.getCartas()[0].getNumero() + this.getCartas()[1].getNumero());
+			}else if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()<10)){
+				return (20 + this.getCartas()[0].getNumero() + this.getCartas()[2].getNumero());
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()<10)){
+				return (20 + this.getCartas()[1].getNumero() + this.getCartas()[2].getNumero());
+			}else if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()>=10)){
+				return (20 + this.getCartas()[0].getNumero());
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()<10)&&(this.getCartas()[2].getNumero()>=10)){
+				return (20 + this.getCartas()[1].getNumero());
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()<10)){
+				return (20 + this.getCartas()[2].getNumero());
+			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()>=10)&&(this.getCartas()[2].getNumero()>=10)){
+				int max = 0;
+				for(int i = 0; i <= 3; i++){
+					if((this.getCartas()[i].getNumero()>max) && (this.getCartas()[i].getNumero()<10)){
+						max = this.getCartas()[i].getNumero();
+					}
+				}
+				return max;
+			}
+		}else if((this.getCartas()[0].getPalo() == this.getCartas()[1].getPalo())){
 			if((this.getCartas()[0].getNumero()<10)&&(this.getCartas()[1].getNumero()<10)){
 				return(20 + this.getCartas()[0].getNumero() + this.getCartas()[1].getNumero());
 			}else if((this.getCartas()[0].getNumero()>=10)&&(this.getCartas()[1].getNumero()<10)){ 
@@ -80,6 +122,7 @@ public class Maquina extends Jugador{
 			}
 			return max;
 		}
+		return 0;
 	}
 	
 	//FUncion para obtener cartas

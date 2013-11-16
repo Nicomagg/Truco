@@ -289,10 +289,68 @@ public class Principal {
 				}else{
 					if(jugadorM.puntosMano()>30){
 						jugadorM.realEnvido(false, false, jugadorH, contador, mentir);
+						envido = true;
 					}else if(jugadorM.puntosMano()>26){
 						jugadorM.envido(false, contador, mentir, jugadorH);
+						envido = true;
 					}
 				}
+				
+				//Verifico si canto truco
+				if(mentir){
+					truco = true;
+					respuestaTruco = jugadorM.truco(contador, jugadorH);
+					if(respuestaTruco.get(1)){
+						reTruco = true;
+						respuestaReTruco = jugadorH.reTruco(contador, jugadorM, mentir);
+						//Verifico respuesta del retruco
+						if(respuestaReTruco.get(1)){
+							vale4 = true;
+							respuestaVale4 = jugadorM.vale4(jugadorH);
+							if(!(respuestaVale4)){
+								jugadorH.setManoGanada(2);
+							}
+						}else if(!(respuestaReTruco.get(0))){
+							jugadorM.setManoGanada(2);
+						}
+					}else{
+						if(!(respuestaTruco.get(0))){
+							jugadorH.setManoGanada(2);
+						}
+					}
+				}else{
+					if(jugadorM.cantarTruco()){
+						truco = true;
+						respuestaTruco = jugadorM.truco(contador, jugadorH);
+						if(respuestaTruco.get(1)){
+							reTruco = true;
+							respuestaReTruco = jugadorH.reTruco(contador, jugadorM, mentir);
+							//Verifico respuesta del retruco
+							if(respuestaReTruco.get(1)){
+								vale4 = true;
+								respuestaVale4 = jugadorM.vale4(jugadorH);
+								if(!(respuestaVale4)){
+									jugadorH.setManoGanada(2);
+								}
+							}else if(!(respuestaReTruco.get(0))){
+								jugadorM.setManoGanada(2);
+							}
+						}else{
+							if(!(respuestaTruco.get(0))){
+								jugadorH.setManoGanada(2);
+							}
+						}
+					}
+				}
+				
+				//Juega carta la máquina
+				System.out.println(jugadorM.getNombre()+": "+jugadorM.getCartas()[0]);
+				jugadorM.getCartas()[0].setHabilitada(false);
+				cartasJugadasMaquina.add(jugadorM.getCartas()[0]);
+				
+				//Turno de juego del humano
+				
+				//Seguir aca
 				
 				//Se cambia quien es mano
 				jugadorH.setMano(false);

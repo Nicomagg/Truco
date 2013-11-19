@@ -343,14 +343,55 @@ public class Principal {
 					}
 				}
 				
-				//Juega carta la máquina
-				System.out.println(jugadorM.getNombre()+": "+jugadorM.getCartas()[0]);
-				jugadorM.getCartas()[0].setHabilitada(false);
-				cartasJugadasMaquina.add(jugadorM.getCartas()[0]);
-				
+				//Verifico si no termino la partida ya
+				if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+					//Juega carta la máquina
+					System.out.println(jugadorM.getNombre()+": "+jugadorM.getCartas()[0]);
+					jugadorM.getCartas()[0].setHabilitada(false);
+					cartasJugadasMaquina.add(jugadorM.getCartas()[0]);
+				}
+					
 				//Turno de juego del humano
-				
-				//Seguir aca
+				if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+					if((!(envido))&&(!(truco))){
+						error = true;
+						//Verifico que no se ingrese cualquier cosa
+						while(error){
+							Scanner sc1 = new Scanner(System.in);
+							try{
+								System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Jugar 3ra Carta \n4-Envido  --  5-Real Envido  --  6-Falta Envido  --  7-Truco \nRespuesta: ");
+								resp = sc1.nextInt();
+								if((resp<1)||(resp>7)){
+									System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+								}else{
+									error = false;
+								}
+							}catch(Exception e){
+								System.out.println("\nError. El valor ingresado no corresponde a un número");
+							}
+						}
+						
+						//Verifico si no se canto envido
+						if(resp == 4){
+							jugadorH.envido(false, contador, jugadorM, mentir);
+							envido = true;
+						}else if(resp == 5){
+							jugadorH.realEnvido(false, false, jugadorM, mentir, contador);
+							envido = true;
+						}else if(resp == 6){
+							jugadorH.faltaEnvido(false, false, false, jugadorM, contador, mentir);
+							envido = true;
+						}
+						
+						if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+							if((resp == 4)||(resp == 5)||(resp == 6)){
+								resp = jugadorH.pedirCarta(true,true,true,true,false,false);
+							}
+						}else{
+							//Fijarme como seguir aca despues. No hay ganas de codear ahora!!!
+						}
+					}
+				}
 				
 				//Se cambia quien es mano
 				jugadorH.setMano(false);

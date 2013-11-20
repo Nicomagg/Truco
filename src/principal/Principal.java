@@ -299,28 +299,57 @@ public class Principal {
 				//Verifico si canto truco
 				if(mentir){
 					truco = true;
-					respuestaTruco = jugadorM.truco(contador, jugadorH);
-					if(respuestaTruco.get(1)){
-						reTruco = true;
-						respuestaReTruco = jugadorH.reTruco(contador, jugadorM, mentir);
-						//Verifico respuesta del retruco
-						if(respuestaReTruco.get(1)){
-							vale4 = true;
-							respuestaVale4 = jugadorM.vale4(jugadorH);
-							if(!(respuestaVale4)){
-								jugadorH.setManoGanada(2);
+					System.out.println(jugadorM.getNombre()+": Truco!!");
+					
+					error = true;
+					//Verifico que no se ingrese cualquier cosa
+					while(error){
+						Scanner sc1 = new Scanner(System.in);
+						try{
+							System.out.print("\nSi desea cantar envido ingrese 1. Para seguir 2. \nRespuesta: ");
+							resp = sc1.nextInt();
+							if((resp<1)||(resp>2)){
+								System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+							}else{
+								error = false;
 							}
-						}else if(!(respuestaReTruco.get(0))){
-							jugadorM.setManoGanada(2);
-						}
-					}else{
-						if(!(respuestaTruco.get(0))){
-							jugadorH.setManoGanada(2);
+						}catch(Exception e){
+							System.out.println("\nError. El valor ingresado no corresponde a un número");
 						}
 					}
-				}else{
-					if(jugadorM.cantarTruco()){
-						truco = true;
+					
+					if(resp==1){
+						error = true;
+						//Verifico que no se ingrese cualquier cosa
+						while(error){
+							Scanner sc1 = new Scanner(System.in);
+							try{
+								System.out.print("\n1-Envido -- 2-Real Envido -- 3-FaltaEnvido \nRespuesta: ");
+								resp = sc1.nextInt();
+								if((resp<1)||(resp>3)){
+									System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+								}else{
+									error = false;
+								}
+							}catch(Exception e){
+								System.out.println("\nError. El valor ingresado no corresponde a un número");
+							}
+						}
+						
+						//Verifico que se canto
+						if(resp == 4){
+							jugadorH.envido(false, contador, jugadorM, mentir);
+							envido = true;
+						}else if(resp == 5){
+							jugadorH.realEnvido(false, false, jugadorM, mentir, contador);
+							envido = true;
+						}else if(resp == 6){
+							jugadorH.faltaEnvido(false, false, false, jugadorM, contador, mentir);
+							envido = true;
+						}
+					}
+					//Verifico si ya no se gano antes
+					if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
 						respuestaTruco = jugadorM.truco(contador, jugadorH);
 						if(respuestaTruco.get(1)){
 							reTruco = true;
@@ -338,6 +367,81 @@ public class Principal {
 						}else{
 							if(!(respuestaTruco.get(0))){
 								jugadorH.setManoGanada(2);
+							}
+						}
+					}
+				}else{
+					if(jugadorM.cantarTruco()){
+						truco = true;
+						System.out.println(jugadorM.getNombre()+": Truco!!");
+						
+						error = true;
+						//Verifico que no se ingrese cualquier cosa
+						while(error){
+							Scanner sc1 = new Scanner(System.in);
+							try{
+								System.out.print("\nSi desea cantar envido ingrese 1. Para seguir 2. \nRespuesta: ");
+								resp = sc1.nextInt();
+								if((resp<1)||(resp>2)){
+									System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+								}else{
+									error = false;
+								}
+							}catch(Exception e){
+								System.out.println("\nError. El valor ingresado no corresponde a un número");
+							}
+						}
+						
+						if(resp==1){
+							error = true;
+							//Verifico que no se ingrese cualquier cosa
+							while(error){
+								Scanner sc1 = new Scanner(System.in);
+								try{
+									System.out.print("\n1-Envido -- 2-Real Envido -- 3-FaltaEnvido \nRespuesta: ");
+									resp = sc1.nextInt();
+									if((resp<1)||(resp>3)){
+										System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+									}else{
+										error = false;
+									}
+								}catch(Exception e){
+									System.out.println("\nError. El valor ingresado no corresponde a un número");
+								}
+							}
+							
+							//Verifico que se canto
+							if(resp == 4){
+								jugadorH.envido(false, contador, jugadorM, mentir);
+								envido = true;
+							}else if(resp == 5){
+								jugadorH.realEnvido(false, false, jugadorM, mentir, contador);
+								envido = true;
+							}else if(resp == 6){
+								jugadorH.faltaEnvido(false, false, false, jugadorM, contador, mentir);
+								envido = true;
+							}
+						}
+						//Verifico si ya no se gano antes
+						if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+							respuestaTruco = jugadorM.truco(contador, jugadorH);
+							if(respuestaTruco.get(1)){
+								reTruco = true;
+								respuestaReTruco = jugadorH.reTruco(contador, jugadorM, mentir);
+								//Verifico respuesta del retruco
+								if(respuestaReTruco.get(1)){
+									vale4 = true;
+									respuestaVale4 = jugadorM.vale4(jugadorH);
+									if(!(respuestaVale4)){
+										jugadorH.setManoGanada(2);
+									}
+								}else if(!(respuestaReTruco.get(0))){
+									jugadorM.setManoGanada(2);
+								}
+							}else{
+								if(!(respuestaTruco.get(0))){
+									jugadorH.setManoGanada(2);
+								}
 							}
 						}
 					}
@@ -387,8 +491,114 @@ public class Principal {
 							if((resp == 4)||(resp == 5)||(resp == 6)){
 								resp = jugadorH.pedirCarta(true,true,true,true,false,false);
 							}
+							if (resp == 7){
+								//Canta truco el humano
+								respuestaTruco = jugadorH.truco(contador, jugadorM);
+								//Verifico si la maquina no canto re truco
+								if(respuestaTruco.get(1)){
+									reTruco = true;
+									respuestaReTruco = jugadorM.reTruco(contador, jugadorH, mentir);
+									//verifico si el humano no canto vale 4
+									if(respuestaReTruco.get(1)){
+										vale4 = true;
+										respuestaVale4 = jugadorH.vale4(contador, jugadorM, mentir);
+										if(respuestaVale4){
+											resp = jugadorH.pedirCarta(true,true,true,false,false,false);
+										}else{
+											contador.sumarPuntos(jugadorH, 3);
+											jugadorH.setManoGanada(2);
+										}
+									}else{
+										if(respuestaReTruco.get(0)){
+											resp = jugadorH.pedirCarta(true,true,true,false,false,true);
+										}else{
+											contador.sumarPuntos(jugadorM, 2);
+											jugadorH.setManoGanada(2);
+										}
+									}
+								}else{
+									if(respuestaTruco.get(0)){
+										resp = jugadorH.pedirCarta(true,true,true,false,false,false);
+									}else{
+										contador.sumarPuntos(jugadorH, 1);
+										jugadorH.setManoGanada(2);
+									}
+								}
+							}
+							
+							//Verifico si el humano no canto vale 4
+							if(resp == 9){
+								vale4 = true;
+								respuestaVale4 = jugadorH.vale4(contador, jugadorM, mentir);
+								if(respuestaVale4){
+									resp = jugadorH.pedirCarta(true,true,true,false,false,false);
+								}else{
+									contador.sumarPuntos(jugadorH, 3);
+									jugadorH.setManoGanada(2);
+								}
+							}
+						}
+					//Fin si no se canto envido y truco
+					}else if( truco || reTruco || vale4){
+						//Verifico si no se canto envido antes
+						if(!(envido)){ 
+							error = true;
+							//Verifico que no se ingrese cualquier cosa
+							while(error){
+								Scanner sc1 = new Scanner(System.in);
+								try{
+									System.out.print("\n1-Jugar 1ra Carta \n2-Jugar 2da Carta \n3-Jugar 3ra Carta \n4-Envido  --  5-Real Envido  --  6-Falta Envido  \nRespuesta: ");
+									resp = sc1.nextInt();
+									if((resp<1)||(resp>7)){
+										System.out.println("\nError. El valor ingresado no corresponde a un número válido");
+									}else{
+										error = false;
+									}
+								}catch(Exception e){
+									System.out.println("\nError. El valor ingresado no corresponde a un número");
+								}
+							}
+							
+							//Verifico si no se canto envido
+							if(resp == 4){
+								jugadorH.envido(false, contador, jugadorM, mentir);
+								envido = true;
+							}else if(resp == 5){
+								jugadorH.realEnvido(false, false, jugadorM, mentir, contador);
+								envido = true;
+							}else if(resp == 6){
+								jugadorH.faltaEnvido(false, false, false, jugadorM, contador, mentir);
+								envido = true;
+							}
+							
+							if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+								resp = jugadorH.pedirCarta(true,true,true,false,false,false);
+							}
+						//Fin si no se canto envido	
 						}else{
-							//Fijarme como seguir aca despues. No hay ganas de codear ahora!!!
+							resp = jugadorH.pedirCarta(true,true,true,false,false,false);
+						}
+					//Fin si no se canto truco	
+					}
+					
+					if((!(jugadorH.ganoMano()))&&(!(jugadorM.ganoMano()))){
+						//Verifico que carta juega el humano
+						switch(resp){
+							case 1:
+								System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[0]);
+								jugadorH.getCartas()[0].setHabilitada(false);
+								cartasJugadasHumano.add(jugadorH.getCartas()[0]);
+								break;
+							case 2:
+								System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[1]);
+								jugadorH.getCartas()[1].setHabilitada(false);
+								cartasJugadasHumano.add(jugadorH.getCartas()[1]);
+								break;
+							case 3:
+								System.out.println("\n"+jugadorH.getNombre()+": "+jugadorH.getCartas()[2]);
+								jugadorH.getCartas()[2].setHabilitada(false);
+								cartasJugadasHumano.add(jugadorH.getCartas()[2]);
+								break;
 						}
 					}
 				}
